@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 22:42:21 by rgu               #+#    #+#             */
-/*   Updated: 2025/05/23 23:19:29 by rgu              ###   ########.fr       */
+/*   Updated: 2025/05/25 16:59:00 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,20 @@ char	*extract_word(char *line, int *i)
 		(*i)++;
 	if (!line[*i])
 		return (NULL);
+	if (is_special(line[*i]))
+	{
+		if ((line[*i] == '>' || line[*i] == '<') && line[*i + 1] == line[*i]) // >> 或 <<
+		{
+			word = ft_substr(line, *i, 2);
+			*i += 2;
+		}
+		else
+		{
+			word = ft_substr(line, *i, 1);
+			(*i)++;
+		}
+		return (word);
+	}
 	if (line[*i] == '\'' || line[*i] == '"')
 	{
 			mark = line[(*i)++];
@@ -86,6 +100,7 @@ t_token	*tokenize(char *line)
 {
 	int		i;
 	char	*word;
+	char	*temp;
 	t_token	*new_token;
 	t_token	*head;
 	t_token	*last;
@@ -93,14 +108,21 @@ t_token	*tokenize(char *line)
 	i = 0;
 	head = NULL;
 	last = NULL;
+
 	while (line[i])
 	{
 		while (line[i] && ft_isspace(line[i]))
 			i++;
 		if (!line[i])
-			break;
+			break ;
 		word = extract_word(line, &i);
+		temp = word;
+		/*int i_before = i;
+		word = extract_word(line, &i);
+		printf("DEBUG: extract_word from i = %d to i = %d\n", i_before, i);*/
 		word = expand_env_vars(word);
+		if (temp != word)
+			free(temp);
 		if (!word)
 			return(free_tokens(head), NULL);
 		new_token = malloc(sizeof(t_token));

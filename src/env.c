@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 15:58:29 by rgu               #+#    #+#             */
-/*   Updated: 2025/05/24 15:58:29 by rgu              ###   ########.fr       */
+/*   Updated: 2025/05/25 17:00:49 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,5 @@ char	*expand_env_vars(const char *str)
 		result[j++] = str[i++];
 	}
 	result[j] = '\0';
-	return (ft_strdup(result));
+	return (result);
 }
