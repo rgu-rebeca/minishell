@@ -1,12 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/24 15:59:21 by rgu               #+#    #+#             */
+/*   Updated: 2025/05/24 15:59:21 by rgu              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
-int	ft_strlen_2(char **str)
+int	count_word(t_token *tokens)
 {
 	int	i;
 
 	i = 0;
-	while (str[i])
-		i++;
+	while (tokens)
+	{
+		if (tokens->type == T_WORD)
+			i++;
+		tokens = tokens->next;
+	}
 	return (i);
 }
 
@@ -28,5 +44,5 @@ int	ft_strcmp(char *str1, char *str2)
 
 int	ft_isspace(int a)
 {
-	return (a == '\f' || a == '\n' || a == '\r' || a == '\t' || a == '\v');
+	return (a == '\f' || a == '\n' || a == '\r' || a == '\t' || a == '\v' || a == ' ');
 }

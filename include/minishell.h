@@ -38,7 +38,13 @@ char	*get_command_path(char *cmd, char **envp);
 void	free_args(char **args);
 t_cmd	*parse_command(char *line);
 int		ft_strcmp(char *str1, char *str2);
-int		ft_strlen_2(char **str);
+int	count_word(t_token *tokens);
 void	execute_pipeline(char *line, char **envp);
+int		ft_isspace(int a);
+char	*expand_env_vars(const char *str);
+t_token	*tokenize(char *line);
+t_cmd	*parse_tokens(t_token *tokens);
 int	ft_isspace(int a);
+void	free_tokens(t_token *tokens);
+void	execute_command_simple(t_cmd *cmd, char **envp);
 #endif
