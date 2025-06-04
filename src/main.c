@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 15:59:00 by rgu               #+#    #+#             */
-/*   Updated: 2025/05/25 16:19:09 by rgu              ###   ########.fr       */
+/*   Updated: 2025/06/04 20:28:00 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,22 +26,27 @@ int	main(int argc, char **argv, char **envp)
 	{
 		line = readline("minishell$");
 		if (!line)
-			break;
+			break ;
 		if (*line)
 			add_history(line);
 		tokens = tokenize(line);
 		if (!tokens)
 		{
 			free(line);
-			continue;
+			continue ;
 		}
 		if (ft_strchr(line, '|'))
-				execute_pipeline(line, envp);
+			execute_pipeline(line, envp);
 		else
 		{
 			cmd = parse_tokens(tokens);
-			if (cmd && cmd->args && cmd->args[0])
-					execute_command_simple(cmd, envp);
+			if (is_built_in(cmd) == 1)
+			{
+				exec_built_in(cmd);
+				free_command(cmd);
+			}
+			else if (cmd && cmd->args && cmd->args[0])
+				execute_command_simple(cmd, envp);
 			free_tokens(tokens);
 		}
 		free(line);

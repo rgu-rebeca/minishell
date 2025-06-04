@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 15:59:21 by rgu               #+#    #+#             */
-/*   Updated: 2025/05/24 15:59:21 by rgu              ###   ########.fr       */
+/*   Updated: 2025/06/04 20:33:07 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,14 @@ int	ft_strcmp(char *str1, char *str2)
 	while (str1[i] && str2[i])
 	{
 		if (str1[i] != str2[i])
-			return ((unsigned char) (str1[i]) - (unsigned char) (str2[i]));
+			return ((unsigned char)(str1[i]) - (unsigned char)(str2[i]));
 		i++;
 	}
-	return ((unsigned char) (str1[i]) - (unsigned char) (str2[i]));
+	return ((unsigned char)(str1[i]) - (unsigned char)(str2[i]));
 }
 
 int	ft_isspace(int a)
 {
-	return (a == '\f' || a == '\n' || a == '\r' || a == '\t' || a == '\v' || a == ' ');
+	return (a == '\f' || a == '\n' || a == '\r'
+		|| a == '\t' || a == '\v' || a == ' ');
 }

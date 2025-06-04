@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 15:59:27 by rgu               #+#    #+#             */
-/*   Updated: 2025/05/24 15:59:28 by rgu              ###   ########.fr       */
+/*   Updated: 2025/06/04 20:31:54 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,13 @@ char	*get_command_path(char *cmd, char **envp)
 	i = 0;
 	path_env = NULL;
 	if (access(cmd, X_OK) == 0)
-		return(ft_strdup(cmd));
+		return (ft_strdup(cmd));
 	while (envp[i])
 	{
 		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
 		{
 			path_env = envp[i] + 5;
-			break;
+			break ;
 		}
 		i++;
 	}

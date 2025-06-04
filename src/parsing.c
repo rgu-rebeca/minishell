@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 22:42:21 by rgu               #+#    #+#             */
-/*   Updated: 2025/05/25 16:59:00 by rgu              ###   ########.fr       */
+/*   Updated: 2025/06/04 20:30:49 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,14 @@ char	*extract_word(char *line, int *i)
 	int		len;
 
 	mark = 0;
-
 	while ((line[*i]) && ft_isspace(line[*i]))
 		(*i)++;
 	if (!line[*i])
 		return (NULL);
 	if (is_special(line[*i]))
 	{
-		if ((line[*i] == '>' || line[*i] == '<') && line[*i + 1] == line[*i]) // >> 或 <<
+		if ((line[*i] == '>' || line[*i] == '<')
+			&& line[*i + 1] == line[*i])
 		{
 			word = ft_substr(line, *i, 2);
 			*i += 2;
@@ -47,13 +47,16 @@ char	*extract_word(char *line, int *i)
 	}
 	if (line[*i] == '\'' || line[*i] == '"')
 	{
-			mark = line[(*i)++];
-			start = *i;
+		mark = line[(*i)++];
+		start = *i;
 		while (line[*i] && line[*i] != mark)
 			(*i)++;
 		len = *i - start;
 		word = ft_substr((const char *)line, start, len);
-		if (line[*i] == mark)
+		if (line[((*i))] != mark)
+			return (free(word),
+				ft_putstr_fd("the quotation mark is not closed\n", 2), NULL);
+		else if (line[(*i)] == mark)
 			(*i)++;
 	}
 	else
@@ -80,7 +83,7 @@ t_token_type	get_token_type(char *str)
 		return (T_REDIR_APPEND);
 	else if (ft_strcmp(str, "<<") == 0)
 		return (T_HERDOC);
-	return T_WORD;
+	return (T_WORD);
 }
 
 void	free_tokens(t_token *tokens)
@@ -104,11 +107,10 @@ t_token	*tokenize(char *line)
 	t_token	*new_token;
 	t_token	*head;
 	t_token	*last;
-	
+
 	i = 0;
 	head = NULL;
 	last = NULL;
-
 	while (line[i])
 	{
 		while (line[i] && ft_isspace(line[i]))
@@ -116,22 +118,23 @@ t_token	*tokenize(char *line)
 		if (!line[i])
 			break ;
 		word = extract_word(line, &i);
+		if (!word)
+		{
+			free_tokens(head);
+			return (NULL);
+		}
 		temp = word;
-		/*int i_before = i;
-		word = extract_word(line, &i);
-		printf("DEBUG: extract_word from i = %d to i = %d\n", i_before, i);*/
 		word = expand_env_vars(word);
 		if (temp != word)
 			free(temp);
 		if (!word)
-			return(free_tokens(head), NULL);
+			return (free_tokens(head), NULL);
 		new_token = malloc(sizeof(t_token));
 		if (!new_token)
 			return (free(word), free_tokens(head), NULL);
 		new_token->type = get_token_type(word);
 		new_token->value = word;
 		new_token->next = NULL;
-		//printf("TOKEN: [%s] TYPE: %d\n", new_token->value, new_token->type);
 		if (!head)
 			head = new_token;
 		else
