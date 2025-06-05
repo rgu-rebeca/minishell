@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 20:33:32 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/04 20:36:42 by rgu              ###   ########.fr       */
+/*   Updated: 2025/06/05 19:31:03 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	free_args(char **args);
 t_cmd	*parse_command(char *line);
 int		ft_strcmp(char *str1, char *str2);
 int		count_word(t_token *tokens);
-void	execute_pipeline(char *line, char **envp);
+void	execute_pipeline(t_token *tokens, char **envp);
 int		ft_isspace(int a);
 char	*expand_env_vars(const char *str);
 t_token	*tokenize(char *line);

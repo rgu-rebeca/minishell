@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 20:26:18 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/04 20:27:14 by rgu              ###   ########.fr       */
+/*   Updated: 2025/06/05 20:36:46 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,40 +15,70 @@
 
 extern int	g_last_status;
 
+t_token	*copy_token(t_token *src)
+{
+	t_token	*new;
+
+	new = malloc(sizeof(t_token));
+	new->type = src->type;
+	new->value = ft_strdup(src->value);
+	if (!new->value)
+		return (free(new), NULL);
+	new->next = NULL;
+	return (new);
+}
+
+t_token	*copy_list(t_token *start, t_token *end)
+{
+	t_token	*head;
+	t_token	*last;
+	t_token	*node;
+
+	head = NULL;
+	last = NULL;
+	while (start && start != end)
+	{
+		node = copy_token(start);
+		if (!node)
+			return (free_tokens(head), NULL);
+		if (!head)
+			head = node;
+		else
+			last->next = node;
+		last = node;
+		start = start->next;
+	}
+	return (head);
+}
+
 t_token	**split_pipeline(t_token *tokens, int *count)
 {
 	t_token	**cmds;
 	int		i;
 	t_token	*start;
 	t_token	*curr;
-	t_token	*prev;
 
 	cmds = malloc(sizeof(t_token *) * 64);
 	i = 0;
 	start = tokens;
 	curr = tokens;
-	prev = NULL;
 	while (curr)
 	{
 		if (curr->type == T_PIPE)
 		{
-			if (prev)
-				prev->next = NULL;
-			cmds[i++] = start;
+			cmds[i++] = copy_list(start, curr);
 			start = curr->next;
 		}
-		prev = curr;
 		curr = curr->next;
 	}
 	if (start)
-		cmds[i++] = start;
+		cmds[i++] = copy_list(start, NULL);
 	*count = i;
 	return (cmds);
 }
 
-void	execute_pipeline(char *line, char **envp)
+void	execute_pipeline(t_token *tokens, char **envp)
 {
-	t_token	*tokens;
 	t_token	**cmds;
 	int		fd[2];
 	int		in_fd;
@@ -58,7 +88,6 @@ void	execute_pipeline(char *line, char **envp)
 	t_cmd	*cmd;
 	int		status;
 
-	tokens = tokenize(line);
 	cmds = split_pipeline(tokens, &count);
 	pids = malloc(sizeof(pid_t) * count);
 	if (!pids)
@@ -109,5 +138,9 @@ void	execute_pipeline(char *line, char **envp)
 			g_last_status = 128 + WTERMSIG(status);
 	}
 	free(pids);
+	i = 0;
+	while (i < count)
+		free_tokens(cmds[i++]);
 	free_tokens(tokens);
+	free(cmds);
 }

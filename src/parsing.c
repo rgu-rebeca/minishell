@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 22:42:21 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/04 20:30:49 by rgu              ###   ########.fr       */
+/*   Updated: 2025/06/05 20:36:27 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ t_token	*tokenize(char *line)
 		if (temp != word)
 			free(temp);
 		if (!word)
-			return (free_tokens(head), NULL);
+			return (free(temp), free_tokens(head), NULL);
 		new_token = malloc(sizeof(t_token));
 		if (!new_token)
 			return (free(word), free_tokens(head), NULL);
