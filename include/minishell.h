@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
+/*   By: rauizqui <rauizqui@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 20:33:32 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/05 19:31:03 by rgu              ###   ########.fr       */
+/*   Updated: 2025/06/09 20:32:48 by rauizqui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include <signal.h>
 # include <sys/wait.h>
 # include <fcntl.h>
+# include <sys/ioctl.h>
+# include <termios.h>
 
 typedef enum s_token_type
 {
@@ -67,4 +69,8 @@ void	free_command(t_cmd *cmd);
 void	exec_pwd(void);
 void	exec_echo(t_cmd *cmd);
 void	exec_exit(t_cmd *cmd);
+
+
+//void run_child(void);
+
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
+/*   By: rauizqui <rauizqui@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 15:59:00 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/05 20:12:40 by rgu              ###   ########.fr       */
+/*   Updated: 2025/06/09 20:14:08 by rauizqui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,29 @@ int	main(int argc, char **argv, char **envp)
 		}
 		if (*line)
 			add_history(line);
+
+		// if (ft_strncmp(line, "testsigterm", 11) == 0)
+		// {
+		// 	run_child();
+		// 	free(line);
+		// 	continue;
+		// }
+		// if (ft_strncmp(line, "testsigchld", 11) == 0)
+		// {
+		// 	pid_t pid = fork();
+		// 	if (pid == 0)
+		// 	{
+		// 		// Código del hijo
+		// 		write(1, "Hijo dice hola y termina\n", 28);
+		// 		exit(42); // El hijo termina con código 42
+		// 	}
+		// 	else if (pid > 0)
+		// 	{
+		// 		write(1, "Padre no espera, SIGCHLD lo gestiona\n", 42);
+		// 	}
+		// 	continue;
+		// }
+
 		tokens = tokenize(line);
 		if (!tokens)
 		{
