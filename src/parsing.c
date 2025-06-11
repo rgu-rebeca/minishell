@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
+/*   By: rauizqui <rauizqui@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 22:42:21 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/05 20:36:27 by rgu              ###   ########.fr       */
+/*   Updated: 2025/06/11 20:03:47 by rauizqui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	free_tokens(t_token *tokens)
 	}
 }
 
-t_token	*tokenize(char *line)
+t_token	*tokenize(char *line, t_env *env_list)
 {
 	int		i;
 	char	*word;
@@ -124,7 +124,7 @@ t_token	*tokenize(char *line)
 			return (NULL);
 		}
 		temp = word;
-		word = expand_env_vars(word);
+		word = expand_env_vars(word, env_list);
 		if (temp != word)
 			free(temp);
 		if (!word)

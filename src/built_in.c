@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
+/*   By: rauizqui <rauizqui@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 20:23:08 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/05 20:37:25 by rgu              ###   ########.fr       */
+/*   Updated: 2025/06/11 21:42:13 by rauizqui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,24 @@ int	is_built_in(t_cmd *cmd)
 		return (1);
 	else if (ft_strcmp(cmd->args[0], "exit") == 0)
 		return (1);
+	else if (ft_strcmp(cmd->args[0], "export") == 0)
+		return (1);
+	else if (ft_strcmp(cmd->args[0], "unset") == 0)
+		return (1);
+	else if (ft_strcmp(cmd->args[0], "env") == 0)
+		return (1);
 	return (0);
 }
 
-void	exec_built_in(t_cmd *cmd)
-{
-	if (ft_strcmp(cmd->args[0], "cd") == 0)
-		exec_cd(cmd);
-	else if (ft_strcmp(cmd->args[0], "pwd") == 0)
-		exec_pwd();
-	else if (ft_strcmp(cmd->args[0], "exit") == 0)
-		exec_exit(cmd);
-}
+// void	exec_built_in(t_cmd *cmd)
+// {
+// 	if (ft_strcmp(cmd->args[0], "cd") == 0)
+// 		exec_cd(cmd);
+// 	else if (ft_strcmp(cmd->args[0], "pwd") == 0)
+// 		exec_pwd();
+// 	else if (ft_strcmp(cmd->args[0], "exit") == 0)
+// 		exec_exit(cmd);
+// }
 
 void	exec_cd(t_cmd *cmd)
 {
