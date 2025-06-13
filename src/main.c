@@ -33,7 +33,6 @@ int	main(int argc, char **argv, char **envp)
 		}
 		if (*line)
 			add_history(line);
-
 		tokens = tokenize(line, env_list);
 		if (!tokens)
 		{

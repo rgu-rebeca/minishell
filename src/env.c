@@ -6,7 +6,7 @@
 /*   By: rauizqui <rauizqui@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 15:58:29 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/11 19:52:28 by rauizqui         ###   ########.fr       */
+/*   Updated: 2025/06/13 11:14:25 by rauizqui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,11 @@ extern int	g_last_status;
 
 t_env	*new_env_node(char *key, char *value)
 {
-	t_env *node = malloc(sizeof(t_env));
+	t_env	*node;
+
+	node = malloc(sizeof(t_env));
 	if (!node)
-		return NULL;
+		return (NULL);
 	node->key = key;
 	node->value = value;
 	node->next = NULL;
@@ -28,49 +30,48 @@ t_env	*new_env_node(char *key, char *value)
 
 void	env_add_back(t_env **lst, t_env *new_node)
 {
-	t_env *temp;
+	t_env	*temp;
 
 	if (!*lst)
 	{
 		*lst = new_node;
-		return;
+		return ;
 	}
 	temp = *lst;
-	while(temp->next)
+	while (temp->next)
 		temp = temp->next;
 	temp->next = new_node;
 }
 
-t_env *init_env(char **envp)
+t_env	*init_env(char **envp)
 {
-	t_env *env_list;
-	char *equal_pos;
-	char *key;
-	char *value;
-	int	i;
+	t_env	*env_list;
+	char	*equal_pos;
+	char	*key;
+	char	*value;
+	int		i;
 
 	i = 0;
 	env_list = NULL;
-
-	while(envp[i])
+	while (envp[i])
 	{
 		equal_pos = strchr(envp[i], '=');
-		if(!equal_pos)
+		if (!equal_pos)
 		{
 			i++;
-			continue;
+			continue ;
 		}
 		key = ft_substr(envp[i], 0, equal_pos - envp[i]);
 		value = ft_strdup(equal_pos + 1);
 		env_add_back(&env_list, new_env_node(key, value));
 		i++;
 	}
-	return env_list;
+	return (env_list);
 }
 
 char	*get_env_value(t_env *env_list, const char *var)
 {
-	while(env_list)
+	while (env_list)
 	{
 		if (ft_strcmp(env_list->key, var) == 0)
 			return (ft_strdup(env_list->value));
@@ -81,10 +82,10 @@ char	*get_env_value(t_env *env_list, const char *var)
 
 char	*expand_env_vars(const char *str, t_env *env_list)
 {
-	char	*result;
-	int		i = 0, n = 0;
-	char	var[256];
-	char	*value;
+	char *result;
+	int i = 0, n = 0;
+	char var[256];
+	char *value;
 
 	result = malloc(1024);
 	if (!result)
@@ -94,13 +95,13 @@ char	*expand_env_vars(const char *str, t_env *env_list)
 		if (str[i] == '$' && str[i + 1] == '?')
 		{
 			char *status = ft_itoa(g_last_status);
-			strcpy(result + n, status);
+			ft_strcpy(result + n, status);
 			n += ft_strlen(status);
 			free(status);
 			i += 2;
 		}
-		else if (str[i] == '$' && str[i + 1] &&
-				(ft_isalnum(str[i + 1]) || str[i + 1] == '_'))
+		else if (str[i] == '$' && str[i + 1] && (ft_isalnum(str[i + 1]) || str[i
+				+ 1] == '_'))
 		{
 			int j = 0;
 			i++;
@@ -108,7 +109,7 @@ char	*expand_env_vars(const char *str, t_env *env_list)
 				var[j++] = str[i++];
 			var[j] = '\0';
 			value = get_env_value(env_list, var);
-			strcpy(result + n, value);
+			ft_strcpy(result + n, value);
 			n += ft_strlen(value);
 			free(value);
 		}

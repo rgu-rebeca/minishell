@@ -104,18 +104,18 @@ void	execute_pipeline(t_token *tokens, char **envp)
 		pids[i] = fork();
 		if (pids[i] == 0)
 		{
-			close (fd[0]);
+			close(fd[0]);
 			if (in_fd != STDIN_FILENO)
 				dup2(in_fd, STDIN_FILENO);
 			if (i < count - 1)
 				dup2(fd[1], STDOUT_FILENO);
-			close (fd[1]);
+			close(fd[1]);
 			cmd = parse_tokens(cmds[i]);
 			if (!cmd)
-				exit (1);
+				exit(1);
 			execute_command(cmd, envp);
 			free_command(cmd);
-			exit (0);
+			exit(0);
 		}
 		else
 		{

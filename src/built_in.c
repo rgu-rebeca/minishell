@@ -6,7 +6,7 @@
 /*   By: rauizqui <rauizqui@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 20:23:08 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/11 21:42:13 by rauizqui         ###   ########.fr       */
+/*   Updated: 2025/06/13 19:03:21 by rauizqui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,50 @@ void	exec_pwd(void)
 	if (getcwd(pwd, sizeof(pwd)) == NULL)
 		perror("pwd error");
 	ft_printf("%s\n", pwd);
+}
+
+int	exec_built_in(t_cmd *cmd, t_env **env_list)
+{
+	int		i;
+	char	*key;
+	char	*value;
+
+	if (!cmd || !cmd->args || !cmd->args[0])
+		return (1);
+	if (ft_strcmp(cmd->args[0], "export") == 0)
+	{
+		i = 1;
+		while (cmd->args[i])
+		{
+			key = NULL;
+			value = NULL;
+			split_key_value(cmd->args[i], &key, &value);
+			if (!key)
+			{
+				ft_putstr_fd("export: invalid identifier\n", 2);
+				i++;
+				continue ;
+			}
+			export_var(env_list, key, value);
+			i++;
+		}
+	}
+	else if (ft_strcmp(cmd->args[0], "unset") == 0)
+	{
+		i = 1;
+		while (cmd->args[i])
+		{
+			unset_var(env_list, cmd->args[i]);
+			i++;
+		}
+	}
+	else if (ft_strcmp(cmd->args[0], "env") == 0)
+		print_env(*env_list);
+	else if (ft_strcmp(cmd->args[0], "cd") == 0)
+		exec_cd(cmd);
+	else if (ft_strcmp(cmd->args[0], "pwd") == 0)
+		exec_pwd();
+	else if (ft_strcmp(cmd->args[0], "exit") == 0)
+		exec_exit(cmd);
+	return (0);
 }

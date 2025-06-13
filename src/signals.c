@@ -32,16 +32,18 @@ void	handle_sigterm(int sig)
 }
 void	handle_sigchld(int sig)
 {
-	int status;
-	pid_t pid;
-	(void)sig;
+	int		status;
+	pid_t	pid;
 
+	(void)sig;
 	while ((pid = waitpid(-1, &status, WNOHANG)) > 0)
 	{
 		if (WIFEXITED(status))
-			printf("Child process %d terminated with code:%d", pid, WEXITSTATUS(status));
-		else if(WIFSIGNALED(status))
-			printf("Child process %d terminates by signal %d", pid, WTERMSIG(status));
+			printf("Child process %d terminated with code:%d", pid,
+				WEXITSTATUS(status));
+		else if (WIFSIGNALED(status))
+			printf("Child process %d terminates by signal %d", pid,
+				WTERMSIG(status));
 	}
 }
 
@@ -56,17 +58,16 @@ void	handle_sigtstp(int sig)
 
 void	handle_sigwinch(int sig)
 {
-	(void)sig;
-	struct winsize win;
+	struct winsize	win;
 
+	(void)sig;
 	if (ioctl(STDIN_FILENO, TIOCGWINSZ, &win) == -1)
 		return ;
-	printf("\n Terminal resized: %d columns, %d rows\n", win.ws_col, win.ws_row);
-
+	printf("\n Terminal resized: %d columns, %d rows\n", win.ws_col,
+		win.ws_row);
 	rl_resize_terminal();
 	rl_on_new_line();
 	rl_redisplay();
-
 }
 void	setup_signals(void)
 {

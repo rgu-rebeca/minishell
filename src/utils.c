@@ -49,32 +49,30 @@ int	ft_isspace(int a)
 		|| a == ' ');
 }
 
-void split_key_value(const char *arg, char **key, char **value)
+void	split_key_value(const char *arg, char **key, char **value)
 {
-    int i = 0;
+	int	i;
 
-    *key = NULL;
-    *value = NULL;
-
-    while (arg[i] && arg[i] != '=')
-        i++;
-
-    if (arg[i] != '=')
-    {
-        *key = strdup(arg);
-        *value = NULL;
-        return;
-    }
-
-    *key = strndup(arg, i);
-    if (!*key)
-        return;
-    *value = strdup(arg + i + 1);
+	i = 0;
+	*key = NULL;
+	*value = NULL;
+	while (arg[i] && arg[i] != '=')
+		i++;
+	if (arg[i] != '=')
+	{
+		*key = strdup(arg);
+		*value = NULL;
+		return ;
+	}
+	*key = strndup(arg, i);
+	if (!*key)
+		return ;
+	*value = strdup(arg + i + 1);
 }
 
-void free_env_list(t_env *env)
+void	free_env_list(t_env *env)
 {
-	t_env *tmp;
+	t_env	*tmp;
 
 	while (env)
 	{

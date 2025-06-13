@@ -32,8 +32,8 @@ t_cmd	*parse_tokens(t_token *tokens)
 	j = 0;
 	while (current)
 	{
-		if ((current->type == T_REDIR_OUT
-				|| current->type == T_REDIR_APPEND) && current->next)
+		if ((current->type == T_REDIR_OUT || current->type == T_REDIR_APPEND)
+			&& current->next)
 		{
 			cmd->outfile = ft_strdup(current->next->value);
 			cmd->append = (current->type == T_REDIR_APPEND);

@@ -32,8 +32,7 @@ char	*extract_word(char *line, int *i)
 		return (NULL);
 	if (is_special(line[*i]))
 	{
-		if ((line[*i] == '>' || line[*i] == '<')
-			&& line[*i + 1] == line[*i])
+		if ((line[*i] == '>' || line[*i] == '<') && line[*i + 1] == line[*i])
 		{
 			word = ft_substr(line, *i, 2);
 			*i += 2;

@@ -13,7 +13,7 @@
 #include "../include/minishell.h"
 #include "../libft/libft.h"
 
-int	g_last_status = 0;
+int		g_last_status = 0;
 
 void	free_args(char **args)
 {
@@ -54,7 +54,7 @@ void	execute_command(t_cmd *cmd, char **envp)
 		if (fd < 0)
 		{
 			perror("open error1");
-			exit (1);
+			exit(1);
 		}
 		dup2(fd, STDIN_FILENO);
 		close(fd);
@@ -70,7 +70,7 @@ void	execute_command(t_cmd *cmd, char **envp)
 		if (fd < 0)
 		{
 			perror("open error2");
-			exit (1);
+			exit(1);
 		}
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
@@ -86,7 +86,7 @@ void	execute_command(t_cmd *cmd, char **envp)
 	execve(path, cmd->args, envp);
 	perror("minishell error");
 	free(path);
-	exit (1);
+	exit(1);
 }
 
 void	execute_command_simple(t_cmd *cmd, char **envp)
@@ -98,7 +98,7 @@ void	execute_command_simple(t_cmd *cmd, char **envp)
 	if (pid == 0)
 	{
 		execute_command(cmd, envp);
-		exit (1);
+		exit(1);
 	}
 	else if (pid > 0)
 	{
