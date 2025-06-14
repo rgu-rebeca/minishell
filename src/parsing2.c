@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:10:21 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/04 23:20:18 by rgu              ###   ########.fr       */
+/*   Updated: 2025/06/14 22:10:29 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ t_cmd	*parse_tokens(t_token *tokens)
 	cmd->outfile = NULL;
 	cmd->append = 0;
 	cmd->args = malloc(sizeof(char *) * (count_word(tokens) + 1));
+	cmd->heredoc_delimiter = NULL;
+	cmd->heredoc_flag = 0;
 	if (!cmd->args)
 		return (free(cmd), NULL);
 	j = 0;
@@ -42,6 +44,12 @@ t_cmd	*parse_tokens(t_token *tokens)
 		else if (current->type == T_REDIR_IN && current->next)
 		{
 			cmd->infile = ft_strdup(current->next->value);
+			current = current->next->next;
+		}
+		else if (current->type == T_HERDOC && current->next)
+		{
+			cmd->heredoc_delimiter = ft_strdup(current->next->value);
+			cmd->heredoc_flag = 1;
 			current = current->next->next;
 		}
 		else if (current->type == T_WORD)

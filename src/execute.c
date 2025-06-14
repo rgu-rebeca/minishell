@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 15:58:22 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/04 20:26:33 by rgu              ###   ########.fr       */
+/*   Updated: 2025/06/14 22:46:10 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ void	free_command(t_cmd *cmd)
 		free(cmd->infile);
 	if (cmd->outfile)
 		free(cmd->outfile);
+	if (cmd->heredoc_delimiter)
+		free(cmd->heredoc_delimiter);
 	free(cmd);
 }
 
@@ -75,6 +77,14 @@ void	execute_command(t_cmd *cmd, char **envp)
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
 	}
+	if (cmd->heredoc_flag == 1)
+	{
+		fd = heredoc(cmd->heredoc_delimiter, ".heredoc_temp");
+		fd = open(".heredoc_temp", O_RDONLY);
+		dup2(fd, STDIN_FILENO);
+		close (fd);
+		unlink(".heredoc_temp");
+	}
 	path = get_command_path(cmd->args[0], envp);
 	if (!path)
 	{
@@ -83,6 +93,7 @@ void	execute_command(t_cmd *cmd, char **envp)
 		ft_putendl_fd(": command not found", 2);
 		exit(127);
 	}
+	signal(SIGQUIT, SIG_DFL);
 	execve(path, cmd->args, envp);
 	perror("minishell error");
 	free(path);
@@ -106,7 +117,11 @@ void	execute_command_simple(t_cmd *cmd, char **envp)
 		if (WIFEXITED(status))
 			g_last_status = WEXITSTATUS(status);
 		else if (WIFSIGNALED(status))
+		{
 			g_last_status = 128 + WTERMSIG(status);
+			if (WTERMSIG(status) == SIGQUIT)
+				ft_printf("\n");
+		}
 	}
 	else
 		perror("fork");

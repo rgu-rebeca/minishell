@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 20:26:18 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/05 20:36:46 by rgu              ###   ########.fr       */
+/*   Updated: 2025/06/14 20:42:09 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,30 @@ t_token	*copy_list(t_token *start, t_token *end)
 	return (head);
 }
 
+int	count_cmds(t_token *tokens)
+{
+	int	i;
+
+	i = 0;
+	while (tokens)
+	{
+		if (tokens->type == T_PIPE)
+			i++;
+		tokens = tokens->next;
+	}
+	return (i + 1);
+}
+
 t_token	**split_pipeline(t_token *tokens, int *count)
 {
 	t_token	**cmds;
 	int		i;
 	t_token	*start;
 	t_token	*curr;
+	int		cmds_count;
 
-	cmds = malloc(sizeof(t_token *) * 64);
+	cmds_count = count_cmds(tokens);
+	cmds = malloc(sizeof(t_token *) * cmds_count);
 	i = 0;
 	start = tokens;
 	curr = tokens;

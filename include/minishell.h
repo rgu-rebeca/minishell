@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rauizqui <rauizqui@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 20:33:32 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/13 19:03:43 by rauizqui         ###   ########.fr       */
+/*   Updated: 2025/06/14 22:45:50 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ typedef struct s_cmd
 	char			*infile;
 	char			*outfile;
 	int				append;
+	char			*heredoc_delimiter;
+	int				heredoc_flag;
 }					t_cmd;
 
 typedef struct s_token
@@ -91,5 +93,8 @@ t_env				*find_env_node(t_env *env_list, const char *key);
 void				add_env_node(t_env **env_list, char *key, char *value);
 void				print_unset_error(char *arg);
 void				print_export_error(const char *arg);
+int	builtin_export(char **args, t_env **env_list);
+int	builtin_unset(char **args, t_env **env_list);
+int	heredoc(char *delimiter, char *filename);
 
 #endif
