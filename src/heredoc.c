@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 20:58:00 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/14 22:47:40 by rgu              ###   ########.fr       */
+/*   Updated: 2025/06/16 17:27:29 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,22 @@ int	heredoc(char *delimiter, char *filename)
 
 	fd = open(filename, O_TRUNC | O_WRONLY | O_CREAT, 0600);
 	if (fd == -1)
+	{
+		perror("error opening");
 		return (-1);
+	}
 	while (1)
 	{
 		line = readline(">");
 		if (!line || ft_strcmp(line, delimiter) == 0)
 		{
+			//printf("Delimitador detectado.\n");
 			free(line);
 			break;
 		}
 		write (fd, line, ft_strlen(line));
 		write (fd, "\n", 1);
+		free(line);
 	}
 	close (fd);
 	return (0);

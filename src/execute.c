@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 15:58:22 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/14 22:46:10 by rgu              ###   ########.fr       */
+/*   Updated: 2025/06/16 17:31:25 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,14 +77,6 @@ void	execute_command(t_cmd *cmd, char **envp)
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
 	}
-	if (cmd->heredoc_flag == 1)
-	{
-		fd = heredoc(cmd->heredoc_delimiter, ".heredoc_temp");
-		fd = open(".heredoc_temp", O_RDONLY);
-		dup2(fd, STDIN_FILENO);
-		close (fd);
-		unlink(".heredoc_temp");
-	}
 	path = get_command_path(cmd->args[0], envp);
 	if (!path)
 	{
@@ -105,6 +97,13 @@ void	execute_command_simple(t_cmd *cmd, char **envp)
 	__pid_t	pid;
 	int		status;
 
+	if (cmd->heredoc_flag == 1)
+	{
+		heredoc(cmd->heredoc_delimiter, ".heredoc_temp");
+		if (cmd->infile)
+				free(cmd->infile);
+		cmd->infile = ft_strdup(".heredoc_temp");
+	}
 	pid = fork();
 	if (pid == 0)
 	{

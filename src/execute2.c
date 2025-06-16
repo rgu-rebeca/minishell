@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 20:26:18 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/14 20:42:09 by rgu              ###   ########.fr       */
+/*   Updated: 2025/06/16 18:03:08 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,19 +95,35 @@ t_token	**split_pipeline(t_token *tokens, int *count)
 
 void	execute_pipeline(t_token *tokens, char **envp)
 {
-	t_token	**cmds;
+	t_token	**token_list;
 	int		fd[2];
 	int		in_fd;
 	__pid_t	*pids;
 	int		i;
 	int		count;
-	t_cmd	*cmd;
+	t_cmd	**cmds;
 	int		status;
 
-	cmds = split_pipeline(tokens, &count);
+	token_list = split_pipeline(tokens, &count);
+	cmds = malloc (sizeof(t_cmd *) * count);
 	pids = malloc(sizeof(pid_t) * count);
-	if (!pids)
+	if (!pids || !cmds)
 		return ;
+	i = 0;
+	while (i < count)
+	{
+		cmds[i] = parse_tokens(token_list[i]);
+		if (!cmds[i])
+			continue;
+		if (cmds[i]->heredoc_flag == 1)
+		{
+			heredoc(cmds[i]->heredoc_delimiter, ".heredoc_temp");
+			if (cmds[i]->infile)
+				free(cmds[i]->infile);
+			cmds[i]->infile = ft_strdup(".heredoc_temp");
+		}
+		i++;
+	}
 	in_fd = 0;
 	i = 0;
 	while (i < count)
@@ -126,12 +142,9 @@ void	execute_pipeline(t_token *tokens, char **envp)
 			if (i < count - 1)
 				dup2(fd[1], STDOUT_FILENO);
 			close(fd[1]);
-			cmd = parse_tokens(cmds[i]);
-			if (!cmd)
-				exit(1);
-			execute_command(cmd, envp);
-			free_command(cmd);
-			exit(0);
+			execute_command(cmds[i], envp);
+			free_command(cmds[i]);
+			exit(1);
 		}
 		else
 		{
@@ -153,10 +166,15 @@ void	execute_pipeline(t_token *tokens, char **envp)
 		else if (WIFSIGNALED(status))
 			g_last_status = 128 + WTERMSIG(status);
 	}
+	unlink(".heredoc_temp");
 	free(pids);
 	i = 0;
 	while (i < count)
-		free_tokens(cmds[i++]);
+		free_tokens(token_list[i++]);
+	free(token_list);
 	free_tokens(tokens);
+	i = 0;
+	while (i < count)
+		free_command(cmds[i++]);
 	free(cmds);
 }
