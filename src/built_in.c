@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 20:23:08 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/21 14:02:52 by rgu              ###   ########.fr       */
+/*   Updated: 2025/06/21 22:45:03 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ int	is_built_in(t_cmd *cmd)
 {
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return (0);
-	if (ft_strcmp(cmd->args[0], "cd") == 0)
+	if (ft_strcmp(cmd->args[0], "echo") == 0)
+		return (1);
+	else if (ft_strcmp(cmd->args[0], "cd") == 0)
 		return (1);
 	else if (ft_strcmp(cmd->args[0], "pwd") == 0)
 		return (1);
@@ -57,7 +59,9 @@ int	exec_built_in(t_cmd *cmd, t_env **env_list)
 {
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return (1);
-	if (ft_strcmp(cmd->args[0], "export") == 0)
+	if (ft_strcmp(cmd->args[0], "echo") == 0)
+		exec_echo(cmd);
+	else if (ft_strcmp(cmd->args[0], "export") == 0)
 		builtin_export(cmd->args, env_list);
 	else if (ft_strcmp(cmd->args[0], "unset") == 0)
 		builtin_unset(cmd->args, env_list);

@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 15:58:36 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/21 17:44:39 by rgu              ###   ########.fr       */
+/*   Updated: 2025/06/21 23:11:21 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	handle_sigtstp(int sig)
 	rl_redisplay();
 
 }*/
+
 void	setup_signals(void)
 {
 	signal(SIGINT, handle_sigint);
