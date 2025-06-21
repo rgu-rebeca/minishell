@@ -6,7 +6,7 @@
 /*   By: rauizqui <rauizqui@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 20:33:32 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/13 19:03:43 by rauizqui         ###   ########.fr       */
+/*   Updated: 2025/06/21 06:57:40 by rauizqui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
+# include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/ioctl.h>
@@ -39,6 +40,8 @@ typedef struct s_cmd
 	char			*infile;
 	char			*outfile;
 	int				append;
+	bool args_owner;
+		// Indicates if args should be freed when the command is freed
 }					t_cmd;
 
 typedef struct s_token

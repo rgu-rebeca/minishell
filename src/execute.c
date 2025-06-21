@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
+/*   By: rauizqui <rauizqui@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 15:58:22 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/04 20:26:33 by rgu              ###   ########.fr       */
+/*   Updated: 2025/06/21 06:57:47 by rauizqui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ void	free_command(t_cmd *cmd)
 {
 	if (!cmd)
 		return ;
-	free_args(cmd->args);
+	if (cmd->args_owner)
+	{
+		free_args(cmd->args);
+	}
 	if (cmd->infile)
 		free(cmd->infile);
 	if (cmd->outfile)
@@ -109,6 +112,7 @@ void	execute_command_simple(t_cmd *cmd, char **envp)
 			g_last_status = 128 + WTERMSIG(status);
 	}
 	else
+	{
 		perror("fork");
-	free_command(cmd);
+	}
 }
