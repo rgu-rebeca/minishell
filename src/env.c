@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rauizqui <rauizqui@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 15:58:29 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/13 11:14:25 by rauizqui         ###   ########.fr       */
+/*   Updated: 2025/06/21 14:49:41 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,44 +78,4 @@ char	*get_env_value(t_env *env_list, const char *var)
 		env_list = env_list->next;
 	}
 	return (ft_strdup(""));
-}
-
-char	*expand_env_vars(const char *str, t_env *env_list)
-{
-	char *result;
-	int i = 0, n = 0;
-	char var[256];
-	char *value;
-
-	result = malloc(1024);
-	if (!result)
-		return (NULL);
-	while (str[i])
-	{
-		if (str[i] == '$' && str[i + 1] == '?')
-		{
-			char *status = ft_itoa(g_last_status);
-			ft_strcpy(result + n, status);
-			n += ft_strlen(status);
-			free(status);
-			i += 2;
-		}
-		else if (str[i] == '$' && str[i + 1] && (ft_isalnum(str[i + 1]) || str[i
-				+ 1] == '_'))
-		{
-			int j = 0;
-			i++;
-			while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
-				var[j++] = str[i++];
-			var[j] = '\0';
-			value = get_env_value(env_list, var);
-			ft_strcpy(result + n, value);
-			n += ft_strlen(value);
-			free(value);
-		}
-		else
-			result[n++] = str[i++];
-	}
-	result[n] = '\0';
-	return (result);
 }

@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 15:59:27 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/04 20:31:54 by rgu              ###   ########.fr       */
+/*   Updated: 2025/06/21 17:00:03 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,23 @@ char	*join_path(char *dir, char *cmd)
 	return (path);
 }
 
+char	*get_path_env(char **envp)
+{
+	int		i;
+
+	i = 0;
+	while (envp[i])
+	{
+		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
+		{
+			return (envp[i] + 5);
+			break ;
+		}
+		i++;
+	}
+	return (NULL);
+}
+
 char	*get_command_path(char *cmd, char **envp)
 {
 	int		i;
@@ -37,15 +54,7 @@ char	*get_command_path(char *cmd, char **envp)
 	path_env = NULL;
 	if (access(cmd, X_OK) == 0)
 		return (ft_strdup(cmd));
-	while (envp[i])
-	{
-		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
-		{
-			path_env = envp[i] + 5;
-			break ;
-		}
-		i++;
-	}
+	path_env = get_path_env(envp);
 	if (!path_env)
 		return (NULL);
 	i = 0;
@@ -54,10 +63,7 @@ char	*get_command_path(char *cmd, char **envp)
 	{
 		full_path = join_path(paths[i], cmd);
 		if (access(full_path, X_OK) == 0)
-		{
-			free_args(paths);
-			return (full_path);
-		}
+			return (free_args(paths), full_path);
 		free(full_path);
 		i++;
 	}

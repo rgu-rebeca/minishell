@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 20:33:32 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/16 17:31:02 by rgu              ###   ########.fr       */
+/*   Updated: 2025/06/21 17:46:04 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ void				print_sorted_env(t_env *env);
 t_env				*init_env(char **envp);
 t_env				*new_env_node(char *key, char *value);
 void				split_key_value(const char *arg, char **key, char **value);
-
 void				free_env_list(t_env *env);
 int					export_var(t_env **env_list, char *key, char *value);
 int					unset_var(t_env **env_list, char *key);
@@ -93,8 +92,12 @@ t_env				*find_env_node(t_env *env_list, const char *key);
 void				add_env_node(t_env **env_list, char *key, char *value);
 void				print_unset_error(char *arg);
 void				print_export_error(const char *arg);
-int	builtin_export(char **args, t_env **env_list);
-int	builtin_unset(char **args, t_env **env_list);
-int	heredoc(char *delimiter, char *filename);
-
+int					builtin_export(char **args, t_env **env_list);
+int					builtin_unset(char **args, t_env **env_list);
+int					heredoc(char *delimiter, char *filename);
+char				*extract_word(char *line, int *i);
+t_token_type		get_token_type(char *str);
+t_token				**split_pipeline(t_token *tokens, int *count);
+void				init_cmds_pids(int count, t_token **token_list,
+						t_cmd **cmds);
 #endif

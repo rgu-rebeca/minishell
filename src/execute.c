@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 15:58:22 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/16 17:31:25 by rgu              ###   ########.fr       */
+/*   Updated: 2025/06/21 15:06:15 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,25 +39,22 @@ void	free_command(t_cmd *cmd)
 	free(cmd);
 }
 
-void	execute_command(t_cmd *cmd, char **envp)
+void	setup_redir_aux(void)
 {
-	char	*path;
-	int		fd;
-	int		flag;
+	perror("open error1");
+	exit(1);
+}
 
-	if (!cmd || !cmd->args || !cmd->args[0])
-	{
-		ft_putendl_fd("minishell: invalid command", 2);
-		exit(1);
-	}
+void	setup_redir(t_cmd *cmd)
+{
+	int	fd;
+	int	flag;
+
 	if (cmd->infile)
 	{
 		fd = open(cmd->infile, O_RDONLY);
 		if (fd < 0)
-		{
-			perror("open error1");
-			exit(1);
-		}
+			setup_redir_aux();
 		dup2(fd, STDIN_FILENO);
 		close(fd);
 	}
@@ -70,13 +67,22 @@ void	execute_command(t_cmd *cmd, char **envp)
 			flag |= O_TRUNC;
 		fd = open(cmd->outfile, flag, 0644);
 		if (fd < 0)
-		{
-			perror("open error2");
-			exit(1);
-		}
+			setup_redir_aux();
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
 	}
+}
+
+void	execute_command(t_cmd *cmd, char **envp)
+{
+	char	*path;
+
+	if (!cmd || !cmd->args || !cmd->args[0])
+	{
+		ft_putendl_fd("minishell: invalid command", 2);
+		exit(1);
+	}
+	setup_redir(cmd);
 	path = get_command_path(cmd->args[0], envp);
 	if (!path)
 	{
@@ -90,39 +96,4 @@ void	execute_command(t_cmd *cmd, char **envp)
 	perror("minishell error");
 	free(path);
 	exit(1);
-}
-
-void	execute_command_simple(t_cmd *cmd, char **envp)
-{
-	__pid_t	pid;
-	int		status;
-
-	if (cmd->heredoc_flag == 1)
-	{
-		heredoc(cmd->heredoc_delimiter, ".heredoc_temp");
-		if (cmd->infile)
-				free(cmd->infile);
-		cmd->infile = ft_strdup(".heredoc_temp");
-	}
-	pid = fork();
-	if (pid == 0)
-	{
-		execute_command(cmd, envp);
-		exit(1);
-	}
-	else if (pid > 0)
-	{
-		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-			g_last_status = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-		{
-			g_last_status = 128 + WTERMSIG(status);
-			if (WTERMSIG(status) == SIGQUIT)
-				ft_printf("\n");
-		}
-	}
-	else
-		perror("fork");
-	free_command(cmd);
 }

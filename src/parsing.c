@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rauizqui <rauizqui@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 22:42:21 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/11 20:03:47 by rauizqui         ###   ########.fr       */
+/*   Updated: 2025/06/21 16:01:08 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,45 +18,61 @@ int	is_special(char c)
 	return (c == '>' || c == '<' || c == '|');
 }
 
-char	*extract_word(char *line, int *i)
+char	*extract_especial(char *line, int *i)
+{
+	char	*word;
+
+	if ((line[*i] == '>' || line[*i] == '<') && line[*i + 1] == line[*i])
+	{
+		word = ft_substr(line, *i, 2);
+		(*i) += 2;
+	}
+	else
+	{
+		word = ft_substr(line, *i, 1);
+		(*i)++;
+	}
+	return (word);
+}
+
+char	*extract_quoted(char *line, int *i, int *start)
 {
 	char	mark;
+	int		len;
+	char	*word;
+
+	mark = line[(*i)++];
+	*start = *i;
+	while (line[*i] && line[*i] != mark)
+		(*i)++;
+	len = *i - *start;
+	word = ft_substr((const char *)line, *start, len);
+	if (line[((*i))] != mark)
+		return (free(word),
+			ft_putstr_fd("the quotation mark is not closed\n", 2), NULL);
+	else if (line[(*i)] == mark)
+		(*i)++;
+	return (word);
+}
+
+char	*extract_word(char *line, int *i)
+{
 	int		start;
 	char	*word;
-	int		len;
 
-	mark = 0;
+	word = NULL;
 	while ((line[*i]) && ft_isspace(line[*i]))
 		(*i)++;
 	if (!line[*i])
 		return (NULL);
 	if (is_special(line[*i]))
 	{
-		if ((line[*i] == '>' || line[*i] == '<') && line[*i + 1] == line[*i])
-		{
-			word = ft_substr(line, *i, 2);
-			*i += 2;
-		}
-		else
-		{
-			word = ft_substr(line, *i, 1);
-			(*i)++;
-		}
+		word = extract_especial(line, i);
 		return (word);
 	}
 	if (line[*i] == '\'' || line[*i] == '"')
 	{
-		mark = line[(*i)++];
-		start = *i;
-		while (line[*i] && line[*i] != mark)
-			(*i)++;
-		len = *i - start;
-		word = ft_substr((const char *)line, start, len);
-		if (line[((*i))] != mark)
-			return (free(word),
-				ft_putstr_fd("the quotation mark is not closed\n", 2), NULL);
-		else if (line[(*i)] == mark)
-			(*i)++;
+		word = extract_quoted(line, i, &start);
 	}
 	else
 	{
@@ -83,62 +99,4 @@ t_token_type	get_token_type(char *str)
 	else if (ft_strcmp(str, "<<") == 0)
 		return (T_HERDOC);
 	return (T_WORD);
-}
-
-void	free_tokens(t_token *tokens)
-{
-	t_token	*temp;
-
-	while (tokens)
-	{
-		temp = tokens->next;
-		free(tokens->value);
-		free(tokens);
-		tokens = temp;
-	}
-}
-
-t_token	*tokenize(char *line, t_env *env_list)
-{
-	int		i;
-	char	*word;
-	char	*temp;
-	t_token	*new_token;
-	t_token	*head;
-	t_token	*last;
-
-	i = 0;
-	head = NULL;
-	last = NULL;
-	while (line[i])
-	{
-		while (line[i] && ft_isspace(line[i]))
-			i++;
-		if (!line[i])
-			break ;
-		word = extract_word(line, &i);
-		if (!word)
-		{
-			free_tokens(head);
-			return (NULL);
-		}
-		temp = word;
-		word = expand_env_vars(word, env_list);
-		if (temp != word)
-			free(temp);
-		if (!word)
-			return (free(temp), free_tokens(head), NULL);
-		new_token = malloc(sizeof(t_token));
-		if (!new_token)
-			return (free(word), free_tokens(head), NULL);
-		new_token->type = get_token_type(word);
-		new_token->value = word;
-		new_token->next = NULL;
-		if (!head)
-			head = new_token;
-		else
-			last->next = new_token;
-		last = new_token;
-	}
-	return (head);
 }

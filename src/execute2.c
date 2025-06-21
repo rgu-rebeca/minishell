@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 20:26:18 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/16 18:03:08 by rgu              ###   ########.fr       */
+/*   Updated: 2025/06/21 17:43:17 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,28 +93,16 @@ t_token	**split_pipeline(t_token *tokens, int *count)
 	return (cmds);
 }
 
-void	execute_pipeline(t_token *tokens, char **envp)
+void	init_cmds_pids(int count, t_token **token_list, t_cmd **cmds)
 {
-	t_token	**token_list;
-	int		fd[2];
-	int		in_fd;
-	__pid_t	*pids;
-	int		i;
-	int		count;
-	t_cmd	**cmds;
-	int		status;
+	int	i;
 
-	token_list = split_pipeline(tokens, &count);
-	cmds = malloc (sizeof(t_cmd *) * count);
-	pids = malloc(sizeof(pid_t) * count);
-	if (!pids || !cmds)
-		return ;
 	i = 0;
 	while (i < count)
 	{
 		cmds[i] = parse_tokens(token_list[i]);
 		if (!cmds[i])
-			continue;
+			continue ;
 		if (cmds[i]->heredoc_flag == 1)
 		{
 			heredoc(cmds[i]->heredoc_delimiter, ".heredoc_temp");
@@ -124,57 +112,4 @@ void	execute_pipeline(t_token *tokens, char **envp)
 		}
 		i++;
 	}
-	in_fd = 0;
-	i = 0;
-	while (i < count)
-	{
-		if (pipe(fd) < 0)
-		{
-			perror("minishell: pipe");
-			break ;
-		}
-		pids[i] = fork();
-		if (pids[i] == 0)
-		{
-			close(fd[0]);
-			if (in_fd != STDIN_FILENO)
-				dup2(in_fd, STDIN_FILENO);
-			if (i < count - 1)
-				dup2(fd[1], STDOUT_FILENO);
-			close(fd[1]);
-			execute_command(cmds[i], envp);
-			free_command(cmds[i]);
-			exit(1);
-		}
-		else
-		{
-			close(fd[1]);
-			if (in_fd != STDIN_FILENO)
-				close(in_fd);
-			in_fd = fd[0];
-		}
-		i++;
-	}
-	if (in_fd != STDIN_FILENO)
-		close(in_fd);
-	i = 0;
-	while (i < count)
-	{
-		waitpid(pids[i++], &status, 0);
-		if (WIFEXITED(status))
-			g_last_status = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-			g_last_status = 128 + WTERMSIG(status);
-	}
-	unlink(".heredoc_temp");
-	free(pids);
-	i = 0;
-	while (i < count)
-		free_tokens(token_list[i++]);
-	free(token_list);
-	free_tokens(tokens);
-	i = 0;
-	while (i < count)
-		free_command(cmds[i++]);
-	free(cmds);
 }
