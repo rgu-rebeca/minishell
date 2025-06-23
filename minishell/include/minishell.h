@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rauizqui <rauizqui@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 20:33:32 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/23 22:01:17 by rauizqui         ###   ########.fr       */
+/*   Updated: 2025/06/23 23:06:56 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,18 +61,12 @@ typedef struct s_env
 
 typedef struct s_expand_aux
 {
-	int i;
-	int n;
-	const char *str;
-	t_env *env_list;
-	char *result;
-} t_expand_aux;
-
-
-
-
-
-
+	int			i;
+	int			n;
+	const char	*str;
+	t_env		*env_list;
+	char		*result;
+}	t_expand_aux;
 
 void				setup_signals(void);
 void				execute_command(t_cmd *cmd, char **envp);
@@ -123,8 +117,6 @@ char				**ft_arrdup(char **arr);
 void				ft_arrfree(char **arr);
 void				update_underscore(t_env **env, char *last_arg);
 int					export_var(t_env **env_list, char *key, char *value);
-int					export_var(t_env **env_list, char *key, char *value);
-int	export_var(t_env **env_list, char *key, char *value);
-int	unset_var(t_env **env_list, char *key);
-int	builtin_unset(char **args, t_env **env_list);
+int					unset_var(t_env **env_list, char *key);
+int					builtin_unset(char **args, t_env **env_list);
 #endif

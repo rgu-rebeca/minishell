@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rauizqui <rauizqui@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 11:04:36 by rauizqui          #+#    #+#             */
-/*   Updated: 2025/06/13 12:21:28 by rauizqui         ###   ########.fr       */
+/*   Updated: 2025/06/23 23:08:22 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 char	*ft_strcpy(char *s1, char *s2)
 {
-    int	i;
+	int	i;
 
-    i = 0;
-	while(s2[i])
+	i = 0;
+	while (s2[i])
 	{
 		s1[i] = s2[i];
 		i++;
 	}
 	s1[i] = 0;
-	return 0;
+	return (0);
 }
