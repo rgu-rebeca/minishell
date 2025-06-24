@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rauizqui <rauizqui@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 22:42:21 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/24 16:32:53 by rauizqui         ###   ########.fr       */
+/*   Updated: 2025/06/24 23:11:23 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,6 @@ char	*extract_word(char *line, int *i, int *quote_type)
 		(*i)++;
 	if (!line[*i])
 		return (NULL);
-	if (is_special(line[*i]))
-		return (extract_especial(line, i));
 	if (line[*i] == '\'')
 	{
 		*quote_type = 1;
@@ -76,6 +74,8 @@ char	*extract_word(char *line, int *i, int *quote_type)
 		*quote_type = 2;
 		return (extract_quoted(line, i, &start));
 	}
+	if (is_special(line[*i]) && *quote_type == 0)
+		return (extract_especial(line, i));
 	*quote_type = 0;
 	start = *i;
 	while (line[*i] && !is_special(line[*i]) && !ft_isspace(line[*i]))
@@ -84,19 +84,19 @@ char	*extract_word(char *line, int *i, int *quote_type)
 	return (word);
 }
 
-t_token_type	get_token_type(char *str)
+t_token_type	get_token_type(char *str, int quote_type)
 {
 	if (!str)
 		return (T_WORD);
-	if (ft_strcmp(str, "|") == 0)
+	if (ft_strcmp(str, "|") == 0 && quote_type == 0)
 		return (T_PIPE);
-	else if (ft_strcmp(str, "<") == 0)
+	else if (ft_strcmp(str, "<") == 0 && quote_type == 0)
 		return (T_REDIR_IN);
-	else if (ft_strcmp(str, ">") == 0)
+	else if (ft_strcmp(str, ">") == 0 && quote_type == 0)
 		return (T_REDIR_OUT);
-	else if (ft_strcmp(str, ">>") == 0)
+	else if (ft_strcmp(str, ">>") == 0 && quote_type == 0)
 		return (T_REDIR_APPEND);
-	else if (ft_strcmp(str, "<<") == 0)
+	else if (ft_strcmp(str, "<<") == 0 && quote_type == 0)
 		return (T_HERDOC);
 	return (T_WORD);
 }

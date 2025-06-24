@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rauizqui <rauizqui@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 20:33:32 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/24 15:41:16 by rauizqui         ###   ########.fr       */
+/*   Updated: 2025/06/24 22:18:11 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ void				setup_signals(void);
 void				execute_command(t_cmd *cmd, char **envp);
 char				*get_command_path(char *cmd, char **envp);
 void				free_args(char **args);
-t_cmd				*parse_command(char *line);
 int					ft_strcmp(const char *str1, const char *str2);
 int					count_word(t_token *tokens);
 void				execute_pipeline(t_token *tokens, char **envp);
@@ -107,7 +106,7 @@ int					builtin_export(char **args, t_env **env_list);
 int					builtin_unset(char **args, t_env **env_list);
 int					heredoc(char *delimiter, char *filename);
 char				*extract_word(char *line, int *i, int *quote_type);
-t_token_type		get_token_type(char *str);
+t_token_type		get_token_type(char *str, int quote_tye);
 t_token				**split_pipeline(t_token *tokens, int *count);
 void				init_cmds_pids(int count, t_token **token_list,
 						t_cmd **cmds);
@@ -121,4 +120,5 @@ int					export_var(t_env **env_list, char *key, char *value);
 int					export_var(t_env **env_list, char *key, char *value);
 int					unset_var(t_env **env_list, char *key);
 int					builtin_unset(char **args, t_env **env_list);
+int					check_token_error(t_token *token);
 #endif

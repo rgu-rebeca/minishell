@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   parsing2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rauizqui <rauizqui@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:10:21 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/23 21:24:31 by rauizqui         ###   ########.fr       */
+/*   Updated: 2025/06/24 23:40:05 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #include "../libft/libft.h"
+
+extern int	g_last_status;
 
 t_cmd	*init_cmd(t_token *tokens)
 {
@@ -77,7 +79,7 @@ static int	process_token(t_cmd **cmd, t_token **cur, int *j)
 	t_token_type	type;
 
 	if (!cur || !(*cur))
-		return (0);
+		return (-1);
 	type = (*cur)->type;
 	if (type == T_REDIR_OUT || type == T_REDIR_APPEND || type == T_REDIR_IN
 		|| type == T_HERDOC)

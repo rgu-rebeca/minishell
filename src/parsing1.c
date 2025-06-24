@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing1.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rauizqui <rauizqui@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 16:00:23 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/24 15:56:05 by rauizqui         ###   ########.fr       */
+/*   Updated: 2025/06/24 18:44:08 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_token	*create_new_token(char *line, int *i, t_token *head, t_env *env_list)
 	new_token = malloc(sizeof(t_token));
 	if (!new_token)
 		return (free(word), free_tokens(head), NULL);
-	new_token->type = get_token_type(word);
+	new_token->type = get_token_type(word, quote_type);
 	new_token->value = word;
 	new_token->next = NULL;
 	return (new_token);
