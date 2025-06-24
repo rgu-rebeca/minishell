@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-void	ft_striteri(char *s, void (*f)(unsigned int, char*))
+void	ft_striteri(char *s, void (*f)(unsigned int, char *))
 {
 	size_t	aux;
 
@@ -41,5 +41,5 @@ void	to_lower_odd(unsigned int i, char *s)
 
 	ft_striteri(s, to_lower_odd );
 	printf("the result is: %s", s);
-	return 0;
+	return (0);
 }*/

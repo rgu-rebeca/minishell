@@ -33,12 +33,12 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 
 /*int main(void)
 {
-    char buffer[20] = "Hola, mundo!"; 
+	char buffer[20] = "Hola, mundo!";
 	char buffer2[10] = "wqewe";
-    printf("Antes: %s\n", buffer2);
-    
-    ft_memcpy(buffer2, buffer, 6);
-    printf("Después: %s\n", buffer2);
-    
-    return 0;
+	printf("Antes: %s\n", buffer2);
+
+	ft_memcpy(buffer2, buffer, 6);
+	printf("Después: %s\n", buffer2);
+
+	return (0);
 }*/

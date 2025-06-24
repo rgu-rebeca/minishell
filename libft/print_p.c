@@ -22,7 +22,7 @@ static void	ft_put_hexa(size_t num)
 		c = 'a' + (num % 16) - 10;
 	else
 		c = num % 16 + '0';
-	write (1, &c, 1);
+	write(1, &c, 1);
 }
 
 int	print_p(void *ptr)
@@ -35,9 +35,9 @@ int	print_p(void *ptr)
 		write(1, "(nil)", 5);
 		return (5);
 	}
-	write (1, "0x", 2);
+	write(1, "0x", 2);
 	count = 2;
-	aux = (size_t) ptr;
+	aux = (size_t)ptr;
 	while (aux > 0)
 	{
 		count++;

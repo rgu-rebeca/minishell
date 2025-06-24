@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_s.c                                          :+:      :+:    :+:   */
+/*   ft_strcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
+/*   By: rauizqui <rauizqui@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/09 15:22:08 by rgu               #+#    #+#             */
-/*   Updated: 2025/04/09 15:22:08 by rgu              ###   ########.fr       */
+/*   Created: 2025/06/13 11:04:36 by rauizqui          #+#    #+#             */
+/*   Updated: 2025/06/24 17:16:43 by rauizqui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-#include "libft.h"
-
-int	print_s(char *str)
+char	*ft_strcpy(char *s1, char *s2)
 {
-	if (!str)
-		str = "(null)";
-	write(1, str, ft_strlen(str));
-	return (ft_strlen(str));
+	int	i;
+
+	i = 0;
+	while (s2[i])
+	{
+		s1[i] = s2[i];
+		i++;
+	}
+	s1[i] = 0;
+	return (0);
 }

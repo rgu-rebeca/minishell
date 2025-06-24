@@ -39,7 +39,7 @@ static char	*ft_word_group(char const *s, int start, int end)
 	int		i;
 
 	i = 0;
-	word = (char *) malloc(sizeof(char) *(end - start + 1));
+	word = (char *)malloc(sizeof(char) * (end - start + 1));
 	if (!word)
 		return (NULL);
 	while (start < end)

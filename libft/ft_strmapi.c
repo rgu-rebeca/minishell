@@ -19,7 +19,7 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 	size_t	aux;
 
 	aux = 0;
-	len = ft_strlen (s);
+	len = ft_strlen(s);
 	if (!s || !f)
 		return (NULL);
 	ptr = malloc(sizeof(char) * (len + 1));
@@ -43,13 +43,13 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 	}
 	return (s);
 }
-	
-int main(void)
+
+int	main(void)
 {
 	char const *s = "HELLO";
 	char    *result;
 
 	result = ft_strmapi(s, to_lower_odd );
 	printf("the result is: %s", result);
-	return 0;
+	return (0);
 }*/

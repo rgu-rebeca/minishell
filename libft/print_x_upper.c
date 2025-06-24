@@ -22,7 +22,7 @@ static void	ft_put_hexa(unsigned int num)
 		c = 'A' + (num % 16) - 10;
 	else
 		c = num % 16 + '0';
-	write (1, &c, 1);
+	write(1, &c, 1);
 }
 
 int	print_x_upper(unsigned int num)

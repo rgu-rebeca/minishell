@@ -16,8 +16,8 @@ void	ft_lstdelone(t_list *lst, void (*del)(void *))
 {
 	if (!lst || !del)
 		return ;
-	(*del)(lst -> content);
-	free (lst);
+	(*del)(lst->content);
+	free(lst);
 }
 
 /*void	del(void*	content)
@@ -35,5 +35,5 @@ int	main(void)
 	printf("the node before deletion is:%d\n", *(int*)node ->content);
 	ft_lstdelone(node, del);
 	printf("deletion done.\n");
-	return 0;
+	return (0);
 }*/

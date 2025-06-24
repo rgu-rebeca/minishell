@@ -19,8 +19,8 @@ int	ft_memcmp(const void *ptr1, const void *ptr2, size_t num)
 	const unsigned char	*p2;
 
 	i = 0;
-	p1 = (const unsigned char *) ptr1;
-	p2 = (const unsigned char *) ptr2;
+	p1 = (const unsigned char *)ptr1;
+	p2 = (const unsigned char *)ptr2;
 	while (i < num)
 	{
 		if (p1[i] != p2[i])
@@ -44,5 +44,5 @@ int	ft_memcmp(const void *ptr1, const void *ptr2, size_t num)
 		printf("the first str is the same as the second");
 	else
 		printf("the first str is smaller than the second");
-		return 0;
+		return (0);
 }*/

@@ -49,8 +49,8 @@ int	ft_printf(const char *format, ...)
 			count += ft_printf_aux(format, args);
 			if (*format == '%')
 			{
-				count ++;
-				write (1, "%", 1);
+				count++;
+				write(1, "%", 1);
 			}
 		}
 		else

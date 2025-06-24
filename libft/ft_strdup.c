@@ -14,9 +14,9 @@
 
 char	*ft_strdup(const char *s)
 {
-	char		*ptr;
-	size_t		len;
-	size_t		i;
+	char	*ptr;
+	size_t	len;
+	size_t	i;
 
 	len = 0;
 	i = 0;
@@ -27,7 +27,7 @@ char	*ft_strdup(const char *s)
 		return (NULL);
 	while (s[i])
 	{
-		ptr [i] = s[i];
+		ptr[i] = s[i];
 		i++;
 	}
 	ptr[i] = '\0';

@@ -37,14 +37,14 @@ char	*ft_strtrim(char const *s1, char const *set)
 	start = 0;
 	if (s1[0] == '\0')
 		return (ft_strdup(""));
-	end = ft_strlen (s1) - 1;
+	end = ft_strlen(s1) - 1;
 	while (s1[start] && ft_strchr(set, s1[start]))
 		start++;
 	while (s1[end] && ft_strchr(set, s1[end]) && start < end)
 		end--;
 	if (end < start)
 		return (ft_strdup(""));
-	result = (char *)malloc(sizeof(char) *(end - start + 2));
+	result = (char *)malloc(sizeof(char) * (end - start + 2));
 	if (!result)
 		return (NULL);
 	ft_aux(start, end, result, s1);

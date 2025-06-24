@@ -34,7 +34,7 @@ void	ft_putnbr_fd(int n, int fd)
 		ft_putnbr_fd(n, fd);
 	}
 	c = num + '0';
-	write (fd, &c, 1);
+	write(fd, &c, 1);
 }
 
 /*int main(void)
@@ -42,5 +42,5 @@ void	ft_putnbr_fd(int n, int fd)
 	int n = INT_MIN;
 	int fd = 1;
 	ft_putnbr_fd(n, fd);
-	return 0;
+	return (0);
 }*/

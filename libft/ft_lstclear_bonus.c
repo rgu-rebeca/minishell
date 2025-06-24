@@ -13,7 +13,7 @@
 #include "libft.h"
 #include <stdio.h>
 
-void	ft_lstclear(t_list **lst, void (*del)(void*))
+void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
 	t_list	*aux;
 
@@ -21,9 +21,9 @@ void	ft_lstclear(t_list **lst, void (*del)(void*))
 		return ;
 	while (*lst)
 	{
-		aux = (*lst)-> next;
-		(del)((*lst)-> content);
-		free (*lst);
+		aux = (*lst)->next;
+		(del)((*lst)->content);
+		free(*lst);
 		*lst = aux;
 	}
 }
@@ -33,14 +33,14 @@ void	ft_lstclear(t_list **lst, void (*del)(void*))
 	free(content);
 }
 
-void print_list(t_list *head)
+void	print_list(t_list *head)
 {
-    while (head)
-    {
-        printf("%d -> ", *(int*)head-> content);
-        head = head->next;
-    }
-    printf("NULL\n");
+	while (head)
+	{
+		printf("%d -> ", *(int*)head-> content);
+		head = head->next;
+	}
+	printf("NULL\n");
 }
 
 int	main(void)
@@ -56,5 +56,5 @@ int	main(void)
 	ft_lstclear(&node1, del);
 	print_list(node1);
 	printf("deletion done");
-	return 0;
+	return (0);
 }*/

@@ -18,8 +18,8 @@ void	ft_lstiter(t_list *lst, void (*f)(void *))
 		return ;
 	while (lst)
 	{
-		f(lst -> content);
-		lst = lst -> next;
+		f(lst->content);
+		lst = lst->next;
 	}
 }
 
@@ -31,14 +31,14 @@ void	ft_lstiter(t_list *lst, void (*f)(void *))
 	*aux = *aux + 1;
 }
 
-void print_list(t_list *head)
+void	print_list(t_list *head)
 {
-    while (head)
-    {
-        printf("%d -> ", *(int*)head-> content);
-        head = head->next;
-    }
-    printf("NULL\n");
+	while (head)
+	{
+		printf("%d -> ", *(int*)head-> content);
+		head = head->next;
+	}
+	printf("NULL\n");
 }
 
 int	main(void)

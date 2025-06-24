@@ -32,7 +32,7 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 			return (NULL);
 		}
 		ft_lstadd_back(&result, new_node);
-		lst = lst -> next;
+		lst = lst->next;
 	}
 	return (result);
 }
@@ -53,14 +53,14 @@ void	*f(void *content)
 	return (new_value);
 }
 
-void print_list(t_list *head)
+void	print_list(t_list *head)
 {
-    while (head)
-    {
-        printf("%d -> ", *(int*)head-> content);
-        head = head->next;
-    }
-    printf("NULL\n");
+	while (head)
+	{
+		printf("%d -> ", *(int*)head-> content);
+		head = head->next;
+	}
+	printf("NULL\n");
 }
 
 int	main(void)
@@ -76,5 +76,5 @@ int	main(void)
 	t_list	*result = ft_lstmap(node1, &f, del);
 	if (result)
 		print_list (result);
-	return 0;
+	return (0);
 }*/

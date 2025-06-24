@@ -18,10 +18,10 @@ void	ft_putendl_fd(char *s, int fd)
 		return ;
 	while (*s)
 	{
-		write (fd, s, 1);
+		write(fd, s, 1);
 		s++;
 	}
-	write (fd, "\n", 1);
+	write(fd, "\n", 1);
 }
 
 /*int main(void)
@@ -29,5 +29,5 @@ void	ft_putendl_fd(char *s, int fd)
 	char *str = "hukj";
 	int fd = 1;
 	ft_putendl_fd(str, fd);
-	return 0;
+	return (0);
 }*/

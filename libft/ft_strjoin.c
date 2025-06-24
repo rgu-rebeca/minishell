@@ -19,8 +19,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	char	*new;
 	char	*temp;
 
-	s1_len = ft_strlen (s1);
-	s2_len = ft_strlen (s2);
+	s1_len = ft_strlen(s1);
+	s2_len = ft_strlen(s2);
 	new = malloc(sizeof(char) * (s1_len + s2_len + 1));
 	if (!new)
 		return (NULL);
@@ -53,5 +53,5 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	}
 	else
 		printf("error");
-	return 0;
+	return (0);
 }*/

@@ -21,7 +21,7 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 	if (!dest && !src)
 		return (NULL);
 	a = (const unsigned char *)src;
-	b = (unsigned char *) dest;
+	b = (unsigned char *)dest;
 	if (b <= a)
 	{
 		i = 0;
@@ -41,12 +41,12 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 
 /*int main(void)
 {
-    char buffer[20] = "Hola, mundo!"; 
-    printf("Antes: %s\n", buffer);
-    
-    char *result = ft_memmove(buffer + 2, buffer, 6);
+	char buffer[20] = "Hola, mundo!";
+	printf("Antes: %s\n", buffer);
+
+	char *result = ft_memmove(buffer + 2, buffer, 6);
 	buffer[8] = '\0';
-    printf("Después: %s\n", result);
-    
-    return 0;
+	printf("Después: %s\n", result);
+
+	return (0);
 }*/

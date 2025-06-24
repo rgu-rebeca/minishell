@@ -21,27 +21,27 @@ int	ft_atoi(const char *str)
 	b = 0;
 	sign = 1;
 	while (str[b] == 32 || (str[b] >= 9 && str[b] <= 13))
-		b ++;
+		b++;
 	result = 0;
 	if (str[b] == '-' || str[b] == '+')
 	{
 		if (str[b] == '-')
 			sign = -1;
-		b ++;
+		b++;
 	}
 	while (str[b] != '\0' && '0' <= str[b] && str[b] <= '9')
 	{
 		result = result * 10 + (str[b] - '0');
-		b ++;
+		b++;
 	}
 	return (result * sign);
 }
 
 /*int main()
 {
-    int final_result;
-    char *str1 = "    +a1+-12--++----4223eawea1rw";
-    final_result = ft_atoi(str1);
-    printf("%d\n", final_result);
-    return(0);
+	int final_result;
+	char *str1 = "    +a1+-12--++----4223eawea1rw";
+	final_result = ft_atoi(str1);
+	printf("%d\n", final_result);
+	return(0);
 }*/

@@ -20,11 +20,11 @@ char	*ft_strrchr(const char *str, int c)
 	while (*str)
 	{
 		if (*str == (char)c)
-			last_ocurrence = (char *) str;
+			last_ocurrence = (char *)str;
 		str++;
 	}
-	if ((char) c == '\0')
-		last_ocurrence = (char *) str;
+	if ((char)c == '\0')
+		last_ocurrence = (char *)str;
 	return (last_ocurrence);
 }
 

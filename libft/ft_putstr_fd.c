@@ -18,7 +18,7 @@ void	ft_putstr_fd(char *s, int fd)
 		return ;
 	while (*s)
 	{
-		write (fd, s, 1);
+		write(fd, s, 1);
 		s++;
 	}
 }
@@ -28,5 +28,5 @@ void	ft_putstr_fd(char *s, int fd)
 	char    *s = "asd";
 	int     fd = 1;
 	ft_putstr_fd(s, fd);
-	return 0;
+	return (0);
 }*/

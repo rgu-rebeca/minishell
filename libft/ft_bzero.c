@@ -18,7 +18,7 @@ void	ft_bzero(void *s, size_t n)
 	unsigned char	*ptr;
 
 	i = 0;
-	ptr = (unsigned char *) s;
+	ptr = (unsigned char *)s;
 	while (i < n)
 	{
 		ptr[i] = 0;
@@ -28,10 +28,10 @@ void	ft_bzero(void *s, size_t n)
 
 /*int	main(void)
 {
-    char buffer[20] = "Hola, mundo!"; 
-    printf("Antes: %s\n", buffer);
-    ft_bzero(buffer, 1);
-    printf("Después: %s\n", buffer);
-    
-    return 0;
+	char buffer[20] = "Hola, mundo!";
+	printf("Antes: %s\n", buffer);
+	ft_bzero(buffer, 1);
+	printf("Después: %s\n", buffer);
+
+	return (0);
 }*/
