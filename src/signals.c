@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 15:58:36 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/24 20:20:48 by rgu              ###   ########.fr       */
+/*   Updated: 2025/06/26 20:02:25 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,12 @@ void	handle_sigint(int sig)
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
+}
+
+void	handle_sigint_special(int sig)
+{
+	(void)sig;
+	write(1, "\n", 1);
 }
 
 void	handle_sigterm(int sig)
@@ -37,12 +43,6 @@ void	handle_sigtstp(int sig)
 	ft_printf("\n");
 	rl_on_new_line();
 	rl_redisplay();
-}
-
-void	handle_sigquit(int sig)
-{
-	(void)sig;
-	write(1, "^\\\n", 3);
 }
 
 void	setup_signals(void)

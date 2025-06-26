@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 17:40:46 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/24 21:51:02 by rgu              ###   ########.fr       */
+/*   Updated: 2025/06/26 20:01:32 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	launch_pipes(int count, pid_t *pids, t_cmd **cmds, char **envp)
 		close(in_fd);
 }
 
-static void	wait_all(int count, pid_t *pids)
+void	wait_all(int count, pid_t *pids)
 {
 	int	i;
 	int	status;
@@ -70,39 +70,12 @@ static void	wait_all(int count, pid_t *pids)
 	i = 0;
 	while (i < count)
 	{
+		signal(SIGINT, handle_sigint_special);
 		waitpid(pids[i++], &status, 0);
+		signal(SIGINT, handle_sigint);
 		if (WIFEXITED(status))
 			g_last_status = WEXITSTATUS(status);
 		else if (WIFSIGNALED(status))
 			g_last_status = 128 + WTERMSIG(status);
 	}
-}
-
-void	execute_pipeline(t_token *tokens, char **envp)
-{
-	t_token	**token_list;
-	__pid_t	*pids;
-	int		i;
-	int		count;
-	t_cmd	**cmds;
-
-	token_list = split_pipeline(tokens, &count);
-	cmds = malloc(sizeof(t_cmd *) * count);
-	pids = malloc(sizeof(pid_t) * count);
-	if (!pids || !cmds)
-		return ;
-	init_cmds_pids(count, token_list, cmds);
-	launch_pipes(count, pids, cmds, envp);
-	wait_all(count, pids);
-	unlink(".heredoc_temp");
-	free(pids);
-	i = 0;
-	while (i < count)
-		free_tokens(token_list[i++]);
-	free(token_list);
-	free_tokens(tokens);
-	i = 0;
-	while (i < count)
-		free_command(cmds[i++]);
-	free(cmds);
 }

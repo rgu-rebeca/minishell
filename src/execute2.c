@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 20:26:18 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/21 17:43:17 by rgu              ###   ########.fr       */
+/*   Updated: 2025/06/26 19:49:40 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,13 @@ t_token	**split_pipeline(t_token *tokens, int *count)
 	return (cmds);
 }
 
-void	init_cmds_pids(int count, t_token **token_list, t_cmd **cmds)
+int	init_cmds_pids(int count, t_token **token_list, t_cmd **cmds)
 {
 	int	i;
+	int	a;
 
 	i = 0;
+	a = 0;
 	while (i < count)
 	{
 		cmds[i] = parse_tokens(token_list[i]);
@@ -105,11 +107,17 @@ void	init_cmds_pids(int count, t_token **token_list, t_cmd **cmds)
 			continue ;
 		if (cmds[i]->heredoc_flag == 1)
 		{
-			heredoc(cmds[i]->heredoc_delimiter, ".heredoc_temp");
+			a = heredoc(cmds[i]->heredoc_delimiter, ".heredoc_temp");
 			if (cmds[i]->infile)
 				free(cmds[i]->infile);
-			cmds[i]->infile = ft_strdup(".heredoc_temp");
+			if (a == 0)
+			{
+				cmds[i]->infile = ft_strdup(".heredoc_temp");
+			}
+			else if (a == 1)
+				return (1);
 		}
 		i++;
 	}
+	return (0);
 }

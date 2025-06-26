@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 15:58:22 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/24 23:33:12 by rgu              ###   ########.fr       */
+/*   Updated: 2025/06/26 20:13:03 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ void	execute_command(t_cmd *cmd, char **envp)
 		exit(1);
 	}
 	handle_redirections(cmd);
+	if (access(".heredoc_temp", F_OK) == 0)
+		unlink(".heredoc_temp");
 	path = get_command_path(cmd->args[0], envp);
 	if (!path)
 	{

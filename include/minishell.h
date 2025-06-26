@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 20:33:32 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/24 22:18:11 by rgu              ###   ########.fr       */
+/*   Updated: 2025/06/26 20:03:04 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int					heredoc(char *delimiter, char *filename);
 char				*extract_word(char *line, int *i, int *quote_type);
 t_token_type		get_token_type(char *str, int quote_tye);
 t_token				**split_pipeline(t_token *tokens, int *count);
-void				init_cmds_pids(int count, t_token **token_list,
+int					init_cmds_pids(int count, t_token **token_list,
 						t_cmd **cmds);
 void				free_args(char **args);
 void				free_command(t_cmd *cmd);
@@ -121,4 +121,10 @@ int					export_var(t_env **env_list, char *key, char *value);
 int					unset_var(t_env **env_list, char *key);
 int					builtin_unset(char **args, t_env **env_list);
 int					check_token_error(t_token *token);
+int					is_redirection(t_token *token);
+void				handle_sigint_special(int sig);
+void				handle_sigint(int sig);
+void				wait_all(int count, pid_t *pids);
+void				launch_pipes(int count, pid_t *pids,
+						t_cmd **cmds, char **envp);
 #endif

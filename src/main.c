@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 15:59:00 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/24 23:47:08 by rgu              ###   ########.fr       */
+/*   Updated: 2025/06/26 20:09:04 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,34 @@ void	handle_builtin(t_cmd *cmd, t_env **env_list)
 	free_command(cmd);
 }
 
+void	handle_special_redirection(t_token *token)
+{
+	t_token	*head;
+	int		fd;
+
+	head = token;
+	if (head->type == T_REDIR_OUT || head->type == T_REDIR_APPEND)
+	{
+		fd = open(head->next->value, O_CREAT | O_RDONLY, 0644);
+		if (fd < 0)
+			return (perror("open error"));
+	}
+	else if (head->type == T_REDIR_IN)
+	{
+		if (access(head->next->value, F_OK) != 0)
+			ft_printf("%s: No existe el archivo o el directorio\n",
+				head->next->value);
+		else
+			return (free_tokens(token));
+	}
+	else if (head->type == T_HERDOC)
+	{
+		heredoc(head->next->value, ".heredoc");
+		unlink(".heredoc");
+	}
+	free_tokens(token);
+}
+
 static void	process_line(char *line, t_env **env_list, char **envp)
 {
 	t_token	*tokens;
@@ -77,6 +105,8 @@ static void	process_line(char *line, t_env **env_list, char **envp)
 		return (free_tokens(tokens));
 	if (ft_strchr(line, '|'))
 		execute_pipeline(tokens, envp);
+	else if (is_redirection(tokens))
+		handle_special_redirection(tokens);
 	else
 	{
 		cmd = parse_tokens(tokens);
@@ -102,6 +132,11 @@ int	main(int argc, char **argv, char **envp)
 		line = readline("minishell$ ");
 		if (!line)
 			break ;
+		if (!line[0])
+		{
+			free(line);
+			continue ;
+		}
 		add_history(line);
 		process_line(line, &env_list, envp);
 		free(line);
