@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 15:59:00 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/26 20:09:04 by rgu              ###   ########.fr       */
+/*   Updated: 2025/06/26 20:32:53 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,19 +68,18 @@ void	handle_special_redirection(t_token *token)
 	int		fd;
 
 	head = token;
-	if (head->type == T_REDIR_OUT || head->type == T_REDIR_APPEND)
+	if ((head->type == T_REDIR_OUT || head->type == T_REDIR_APPEND)
+		&& (access(head->next->value, F_OK) != 0))
 	{
 		fd = open(head->next->value, O_CREAT | O_RDONLY, 0644);
 		if (fd < 0)
-			return (perror("open error"));
+			return (perror("open error"), free_tokens(token));
 	}
 	else if (head->type == T_REDIR_IN)
 	{
 		if (access(head->next->value, F_OK) != 0)
 			ft_printf("%s: No existe el archivo o el directorio\n",
 				head->next->value);
-		else
-			return (free_tokens(token));
 	}
 	else if (head->type == T_HERDOC)
 	{
