@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 15:59:27 by rgu               #+#    #+#             */
-/*   Updated: 2025/07/02 00:09:03 by rgu              ###   ########.fr       */
+/*   Updated: 2025/07/02 00:47:34 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ char	*get_path_env(t_env *env_list)
 {
 	while (env_list)
 	{
-		if (ft_strncmp(env_list->value, "PATH=", 5) == 0)
+		if (ft_strncmp(env_list->key, "PATH", 4) == 0)
 		{
-			return (env_list->value + 5);
+			return (env_list->value);
 			break ;
 		}
 		env_list = env_list->next;

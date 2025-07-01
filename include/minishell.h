@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 20:33:32 by rgu               #+#    #+#             */
-/*   Updated: 2025/07/02 00:03:22 by rgu              ###   ########.fr       */
+/*   Updated: 2025/07/02 00:35:32 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,19 +69,19 @@ typedef struct s_expand_aux
 }					t_expand_aux;
 
 void				setup_signals(void);
-void	execute_command(t_cmd *cmd, char **envp, t_env *env_list);
+void	execute_command(t_cmd *cmd, t_env *env_list, char **envp);
 char				*get_command_path(char *cmd, t_env *env_list);
 void				free_args(char **args);
 int					ft_strcmp(const char *str1, const char *str2);
 int					count_word(t_token *tokens);
-void	execute_pipeline(t_token *tokens, char **envp, t_env ** env_list);
+void	execute_pipeline(t_token *tokens, t_env ** env_list, char **envp);
 int					ft_isspace(int a);
 char				*get_env_value(t_env *env_list, const char *var);
 t_token				*tokenize(char *line, t_env *env_list);
 t_cmd				*parse_tokens(t_token *tokens);
 int					ft_isspace(int a);
 void				free_tokens(t_token *tokens);
-void				execute_command_simple(t_cmd *cmd, char **envp, t_env *env_list);
+void				execute_command_simple(t_cmd *cmd, t_env *env_list, char **envp);
 int					is_built_in(t_cmd *cmd);
 int					exec_built_in(t_cmd *cmd, t_env **env_list);
 void				exec_cd(t_cmd *cmd);
@@ -126,5 +126,5 @@ void				handle_sigint_special(int sig);
 void				handle_sigint(int sig);
 void				wait_all(int count, pid_t *pids);
 void				launch_pipes(int count, pid_t *pids,
-						t_cmd **cmds, char **envp, t_env **env);
+						t_cmd **cmds, t_env **env, char **envp);
 #endif

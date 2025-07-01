@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 20:10:52 by rauizqui          #+#    #+#             */
-/*   Updated: 2025/07/01 23:32:41 by rgu              ###   ########.fr       */
+/*   Updated: 2025/07/02 01:12:04 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ static void	split_key_value(const char *arg, char **key, char **value)
 {
 	char	*equal;
 	size_t	len;
+	char	*tail;
 
 	if (!arg || !key || !value)
 		return ;
@@ -45,7 +46,16 @@ static void	split_key_value(const char *arg, char **key, char **value)
 	{
 		len = equal - arg;
 		*key = ft_substr(arg, 0, len);
-		*value = ft_strdup(equal + 1);
+		equal++;
+		if (*(equal) == '"' || (*(equal)) == '\'')
+			equal++;
+		tail = equal;
+		while (*tail)
+			tail++;
+		if(*(tail - 1) == '"' || *(tail - 1) == '\'')
+			tail--;
+		len = tail - equal;
+		*value = ft_substr(equal, 0, len);
 	}
 	else
 		*key = ft_strdup(arg);
@@ -95,6 +105,7 @@ int	builtin_export(char **args, t_env **env_list)
 	if (!args[1])
 	{
 		print_sorted_env(*env_list);
+		g_last_status = 0;
 		return (0);
 	}
 	i = 1;

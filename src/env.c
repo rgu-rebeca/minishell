@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 15:58:29 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/21 14:49:41 by rgu              ###   ########.fr       */
+/*   Updated: 2025/07/02 00:44:15 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_env	*init_env(char **envp)
 	env_list = NULL;
 	while (envp[i])
 	{
-		equal_pos = strchr(envp[i], '=');
+		equal_pos = ft_strchr(envp[i], '=');
 		if (!equal_pos)
 		{
 			i++;
