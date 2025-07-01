@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 15:58:22 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/26 20:13:03 by rgu              ###   ########.fr       */
+/*   Updated: 2025/07/02 00:01:27 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	open_infile(t_cmd *cmd)
 	fd = open(cmd->infile, O_RDONLY);
 	if (fd < 0)
 	{
-		perror("open error1");
+		perror("open error");
 		exit(1);
 	}
 	dup2(fd, STDIN_FILENO);
@@ -46,7 +46,7 @@ static void	open_outfile(t_cmd *cmd)
 	fd = open(cmd->outfile, flag, 0644);
 	if (fd < 0)
 	{
-		perror("open error2");
+		perror("open error");
 		exit(1);
 	}
 	dup2(fd, STDOUT_FILENO);
@@ -59,7 +59,7 @@ static void	handle_redirections(t_cmd *cmd)
 	open_outfile(cmd);
 }
 
-void	execute_command(t_cmd *cmd, char **envp)
+void	execute_command(t_cmd *cmd, char **envp, t_env *env_list)
 {
 	char	*path;
 
@@ -71,7 +71,7 @@ void	execute_command(t_cmd *cmd, char **envp)
 	handle_redirections(cmd);
 	if (access(".heredoc_temp", F_OK) == 0)
 		unlink(".heredoc_temp");
-	path = get_command_path(cmd->args[0], envp);
+	path = get_command_path(cmd->args[0], env_list);
 	if (!path)
 	{
 		ft_putstr_fd("minishell: ", 2);

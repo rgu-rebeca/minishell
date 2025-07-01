@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils4.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rauizqui <rauizqui@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 20:46:04 by rauizqui          #+#    #+#             */
-/*   Updated: 2025/06/23 21:04:48 by rauizqui         ###   ########.fr       */
+/*   Updated: 2025/07/01 23:25:49 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,16 @@ int	unset_var(t_env **env_list, char *key)
 	{
 		if (ft_strcmp(curr->key, key) == 0)
 		{
+			t_env *to_delete = curr;
 			if (prev)
 				prev->next = curr->next;
 			else
 				*env_list = curr->next;
-			free(curr->key);
-			free(curr->value);
-			free(curr);
-			return (0);
+			curr = curr->next;
+			free(to_delete->key);
+			free(to_delete->value);
+			free(to_delete);
+			continue;
 		}
 		prev = curr;
 		curr = curr->next;

@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 15:05:30 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/26 20:12:20 by rgu              ###   ########.fr       */
+/*   Updated: 2025/07/02 00:02:51 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	handle_heredoc(t_cmd *cmd)
 	return (0);
 }
 
-void	execute_command_simple(t_cmd *cmd, char **envp)
+void	execute_command_simple(t_cmd *cmd, char **envp, t_env *env_list)
 {
 	__pid_t	pid;
 	int		status;
@@ -58,7 +58,7 @@ void	execute_command_simple(t_cmd *cmd, char **envp)
 	pid = fork();
 	if (pid == 0)
 	{
-		execute_command(cmd, envp);
+		execute_command(cmd, envp, env_list);
 		exit(1);
 	}
 	else if (pid < 0)

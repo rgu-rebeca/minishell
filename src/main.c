@@ -6,12 +6,14 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 15:59:00 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/26 20:32:53 by rgu              ###   ########.fr       */
+/*   Updated: 2025/07/02 00:04:42 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #include "../libft/libft.h"
+
+extern int g_last_status;
 
 static void	handle_command(t_cmd *cmd, t_env **env_list, char **envp)
 {
@@ -24,7 +26,7 @@ static void	handle_command(t_cmd *cmd, t_env **env_list, char **envp)
 	else
 		last_arg = NULL;
 	if (cmd->args && cmd->args[0])
-		execute_command_simple(cmd, envp);
+		execute_command_simple(cmd, envp, *env_list);
 	if (last_arg != NULL)
 	{
 		update_underscore(env_list, last_arg);
@@ -103,7 +105,7 @@ static void	process_line(char *line, t_env **env_list, char **envp)
 	if (check_token_error(tokens) == 1)
 		return (free_tokens(tokens));
 	if (ft_strchr(line, '|'))
-		execute_pipeline(tokens, envp);
+		execute_pipeline(tokens, envp, env_list);
 	else if (is_redirection(tokens))
 		handle_special_redirection(tokens);
 	else

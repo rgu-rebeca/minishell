@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rauizqui <rauizqui@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 20:10:52 by rauizqui          #+#    #+#             */
-/*   Updated: 2025/06/23 22:03:11 by rauizqui         ###   ########.fr       */
+/*   Updated: 2025/07/01 23:32:41 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #include "../libft/libft.h"
+
+extern int	g_last_status;
 
 static int	is_valid_identifier(const char *arg)
 {
@@ -57,6 +59,7 @@ static void	handle_export_arg(char *arg, t_env **env_list)
 	if (!is_valid_identifier(arg))
 	{
 		print_export_error(arg);
+		g_last_status = 1;
 		return ;
 	}
 	split_key_value(arg, &key, &value);
@@ -75,9 +78,13 @@ int	builtin_unset(char **args, t_env **env_list)
 		if (is_valid_identifier(args[i]))
 			unset_var(env_list, args[i]);
 		else
+		{
 			print_unset_error(args[i]);
+			g_last_status = 1;
+		}
 		i++;
 	}
+	g_last_status = 0;
 	return (0);
 }
 
@@ -96,5 +103,6 @@ int	builtin_export(char **args, t_env **env_list)
 		handle_export_arg(args[i], env_list);
 		i++;
 	}
+	g_last_status = 0;
 	return (0);
 }

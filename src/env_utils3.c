@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils3.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rauizqui <rauizqui@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 18:57:04 by rauizqui          #+#    #+#             */
-/*   Updated: 2025/06/13 18:57:53 by rauizqui         ###   ########.fr       */
+/*   Updated: 2025/07/01 23:24:23 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,12 @@
 
 void	print_env(t_env *env_list)
 {
-	if (!env_list)
-		return ;
-	printf("%s=%s\n", env_list->key, env_list->value);
-	print_env(env_list->next);
+	while (env_list)
+	{
+		if (env_list->value)
+			printf("%s=%s\n", env_list->key, env_list->value);
+		env_list = env_list->next;
+	}
 }
 
 t_env	*find_env_node(t_env *env_list, const char *key)

@@ -6,12 +6,14 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 20:23:08 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/24 21:23:29 by rgu              ###   ########.fr       */
+/*   Updated: 2025/06/30 23:45:43 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #include "../libft/libft.h"
+
+extern int	g_last_status;
 
 int	is_built_in(t_cmd *cmd)
 {
@@ -43,7 +45,10 @@ void	exec_cd(t_cmd *cmd)
 	else
 		path = cmd->args[1];
 	if (!path || chdir(path) != 0)
+	{
 		perror("cd error");
+		g_last_status = 1;
+	}
 }
 
 void	exec_pwd(void)
@@ -51,7 +56,10 @@ void	exec_pwd(void)
 	char	pwd[1024];
 
 	if (getcwd(pwd, sizeof(pwd)) == NULL)
+	{
 		perror("pwd error");
+		g_last_status = 1;
+	}
 	ft_printf("%s\n", pwd);
 }
 

@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 20:23:27 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/24 21:13:43 by rgu              ###   ########.fr       */
+/*   Updated: 2025/06/30 23:47:24 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	exec_echo(t_cmd *cmd)
 	}
 	if (newline)
 		write(1, "\n", 1);
+	g_last_status = 0;
 }
 
 int	is_numeric(char *str)
@@ -90,5 +91,6 @@ void	exec_exit(t_cmd *cmd)
 		exit(1);
 	}
 	code = ft_atoi(cmd->args[1]);
+	g_last_status = code;
 	exit(code);
 }

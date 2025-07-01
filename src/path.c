@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 15:59:27 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/21 17:00:03 by rgu              ###   ########.fr       */
+/*   Updated: 2025/07/02 00:09:03 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,24 +26,21 @@ char	*join_path(char *dir, char *cmd)
 	return (path);
 }
 
-char	*get_path_env(char **envp)
+char	*get_path_env(t_env *env_list)
 {
-	int	i;
-
-	i = 0;
-	while (envp[i])
+	while (env_list)
 	{
-		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
+		if (ft_strncmp(env_list->value, "PATH=", 5) == 0)
 		{
-			return (envp[i] + 5);
+			return (env_list->value + 5);
 			break ;
 		}
-		i++;
+		env_list = env_list->next;
 	}
 	return (NULL);
 }
 
-char	*get_command_path(char *cmd, char **envp)
+char	*get_command_path(char *cmd, t_env *env_list)
 {
 	int		i;
 	char	**paths;
@@ -54,7 +51,7 @@ char	*get_command_path(char *cmd, char **envp)
 	path_env = NULL;
 	if (access(cmd, X_OK) == 0)
 		return (ft_strdup(cmd));
-	path_env = get_path_env(envp);
+	path_env = get_path_env(env_list);
 	if (!path_env)
 		return (NULL);
 	i = 0;
