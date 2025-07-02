@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 20:10:52 by rauizqui          #+#    #+#             */
-/*   Updated: 2025/07/02 01:12:04 by rgu              ###   ########.fr       */
+/*   Updated: 2025/07/02 14:44:17 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ static int	is_valid_identifier(const char *arg)
 static void	split_key_value(const char *arg, char **key, char **value)
 {
 	char	*equal;
-	size_t	len;
 	char	*tail;
 
 	if (!arg || !key || !value)
@@ -44,18 +43,16 @@ static void	split_key_value(const char *arg, char **key, char **value)
 	equal = ft_strchr(arg, '=');
 	if (equal)
 	{
-		len = equal - arg;
-		*key = ft_substr(arg, 0, len);
+		*key = ft_substr(arg, 0, equal - arg);
 		equal++;
 		if (*(equal) == '"' || (*(equal)) == '\'')
 			equal++;
 		tail = equal;
 		while (*tail)
 			tail++;
-		if(*(tail - 1) == '"' || *(tail - 1) == '\'')
+		if (*(tail - 1) == '"' || *(tail - 1) == '\'')
 			tail--;
-		len = tail - equal;
-		*value = ft_substr(equal, 0, len);
+		*value = ft_substr(equal, 0, tail - equal);
 	}
 	else
 		*key = ft_strdup(arg);

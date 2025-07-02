@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 20:26:18 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/26 19:49:40 by rgu              ###   ########.fr       */
+/*   Updated: 2025/07/02 20:27:47 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ t_token	*copy_token(t_token *src)
 	t_token	*new;
 
 	new = malloc(sizeof(t_token));
+	if (!new)
+		return (NULL);
 	new->type = src->type;
 	new->value = ft_strdup(src->value);
 	if (!new->value)
@@ -104,7 +106,7 @@ int	init_cmds_pids(int count, t_token **token_list, t_cmd **cmds)
 	{
 		cmds[i] = parse_tokens(token_list[i]);
 		if (!cmds[i])
-			continue ;
+			return (1);
 		if (cmds[i]->heredoc_flag == 1)
 		{
 			a = heredoc(cmds[i]->heredoc_delimiter, ".heredoc_temp");

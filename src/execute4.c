@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 19:53:18 by rgu               #+#    #+#             */
-/*   Updated: 2025/07/02 00:35:13 by rgu              ###   ########.fr       */
+/*   Updated: 2025/07/02 15:02:30 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	clean_and_free(pid_t *pids, int count,
 	free_tokens(tokens);
 }
 
-void	execute_pipeline(t_token *tokens, t_env ** env_list, char **envp)
+void	execute_pipeline(t_token *tokens, t_exec_data *data)
 {
 	t_token	**token_list;
 	__pid_t	*pids;
@@ -67,7 +67,7 @@ void	execute_pipeline(t_token *tokens, t_env ** env_list, char **envp)
 		return (free_tokens(tokens),
 			free(pids), free_token_list(count, token_list),
 			free_2(cmds, count));
-	launch_pipes(count, pids, cmds, env_list, envp);
+	launch_pipes(count, pids, cmds, data);
 	wait_all(count, pids);
 	clean_and_free(pids, count, token_list, tokens);
 	free_2(cmds, count);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rauizqui <rauizqui@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 20:21:05 by rauizqui          #+#    #+#             */
-/*   Updated: 2025/06/23 21:18:20 by rauizqui         ###   ########.fr       */
+/*   Updated: 2025/07/02 19:56:24 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,16 @@ void	update_underscore(t_env **env, char *last_arg)
 	{
 		add_env_node(env, "_", value);
 	}
+}
+
+void	free_data(t_exec_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (data->envp[i])
+		free(data->envp[i++]);
+	free(data->envp);
+	free_env_list(data->env_list);
+	free(data);
 }

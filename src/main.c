@@ -6,14 +6,14 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 15:59:00 by rgu               #+#    #+#             */
-/*   Updated: 2025/07/02 00:35:46 by rgu              ###   ########.fr       */
+/*   Updated: 2025/07/02 20:45:00 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #include "../libft/libft.h"
 
-extern int g_last_status;
+extern int	g_last_status;
 
 static void	handle_command(t_cmd *cmd, t_env **env_list, char **envp)
 {
@@ -91,7 +91,7 @@ void	handle_special_redirection(t_token *token)
 	free_tokens(token);
 }
 
-static void	process_line(char *line, t_env **env_list, char **envp)
+static void	process_line(char *line, t_exec_data *data)
 {
 	t_token	*tokens;
 	t_cmd	*cmd;
@@ -99,34 +99,34 @@ static void	process_line(char *line, t_env **env_list, char **envp)
 	cmd = NULL;
 	if (!line || *line == '\0')
 		return ;
-	tokens = tokenize(line, *env_list);
+	tokens = tokenize(line, data->env_list);
 	if (!tokens)
 		return ;
 	if (check_token_error(tokens) == 1)
 		return (free_tokens(tokens));
 	if (ft_strchr(line, '|'))
-		execute_pipeline(tokens, env_list, envp);
+		execute_pipeline(tokens, data);
 	else if (is_redirection(tokens))
 		handle_special_redirection(tokens);
 	else
 	{
 		cmd = parse_tokens(tokens);
 		if (is_built_in(cmd) == 1)
-			handle_builtin(cmd, env_list);
+			handle_builtin(cmd, &data->env_list);
 		else
-			handle_command(cmd, env_list, envp);
+			handle_command(cmd, &data->env_list, data->envp);
 		free_tokens(tokens);
 	}
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*line;
-	t_env	*env_list;
+	char		*line;
+	t_exec_data	*data;
 
 	(void)argc;
 	(void)argv;
-	env_list = init_env(envp);
+	data = init_data(envp);
 	setup_signals();
 	while (1)
 	{
@@ -139,9 +139,9 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		}
 		add_history(line);
-		process_line(line, &env_list, envp);
+		process_line(line, data);
 		free(line);
 	}
-	free_env_list(env_list);
+	free_data(data);
 	return (0);
 }

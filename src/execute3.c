@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 17:40:46 by rgu               #+#    #+#             */
-/*   Updated: 2025/07/02 00:34:47 by rgu              ###   ########.fr       */
+/*   Updated: 2025/07/02 20:46:24 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	handle_parent(int fd[2], int *in_fd)
 
 void	auxliar(t_cmd **cmds, int i, t_env **env_list, char **envp)
 {
+	if (is_built_in(cmds[i]))
+		handle_redirections(cmds[i]);
 	if (is_built_in(cmds[i]) == 0)
 		execute_command(cmds[i], *env_list, envp);
 	else
@@ -47,7 +49,7 @@ void	auxliar(t_cmd **cmds, int i, t_env **env_list, char **envp)
 	exit(1);
 }
 
-void	launch_pipes(int count, pid_t *pids, t_cmd **cmds, t_env **env_list, char **envp)
+void	launch_pipes(int count, pid_t *pids, t_cmd **cmds, t_exec_data *data)
 {
 	int	in_fd;
 	int	fd[2];
@@ -67,7 +69,7 @@ void	launch_pipes(int count, pid_t *pids, t_cmd **cmds, t_env **env_list, char *
 		if (pids[i] == 0)
 		{
 			handle_child(fd, in_fd, i, count);
-			auxliar(cmds, i, env_list, envp);
+			auxliar(cmds, i, &data->env_list, data->envp);
 		}
 		handle_parent(fd, &in_fd);
 		i++;

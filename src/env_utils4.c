@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 20:46:04 by rauizqui          #+#    #+#             */
-/*   Updated: 2025/07/01 23:25:49 by rgu              ###   ########.fr       */
+/*   Updated: 2025/07/02 14:42:08 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	unset_var(t_env **env_list, char *key)
 {
 	t_env	*prev;
 	t_env	*curr;
+	t_env	*to_delete;
 
 	prev = NULL;
 	curr = *env_list;
@@ -47,7 +48,7 @@ int	unset_var(t_env **env_list, char *key)
 	{
 		if (ft_strcmp(curr->key, key) == 0)
 		{
-			t_env *to_delete = curr;
+			to_delete = curr;
 			if (prev)
 				prev->next = curr->next;
 			else
@@ -56,7 +57,7 @@ int	unset_var(t_env **env_list, char *key)
 			free(to_delete->key);
 			free(to_delete->value);
 			free(to_delete);
-			continue;
+			continue ;
 		}
 		prev = curr;
 		curr = curr->next;

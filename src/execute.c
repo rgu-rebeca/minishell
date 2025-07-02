@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 15:58:22 by rgu               #+#    #+#             */
-/*   Updated: 2025/07/02 00:24:14 by rgu              ###   ########.fr       */
+/*   Updated: 2025/07/02 20:41:32 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	open_outfile(t_cmd *cmd)
 	close(fd);
 }
 
-static void	handle_redirections(t_cmd *cmd)
+void	handle_redirections(t_cmd *cmd)
 {
 	open_infile(cmd);
 	open_outfile(cmd);

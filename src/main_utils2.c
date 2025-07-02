@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main2.c                                            :+:      :+:    :+:   */
+/*   main_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 20:16:02 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/24 20:21:42 by rgu              ###   ########.fr       */
+/*   Updated: 2025/07/02 20:46:56 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,30 @@ int	check_token_error(t_token *token)
 	if (curr && curr->type == T_PIPE)
 		return (syntax_error(curr), 1);
 	return (0);
+}
+
+t_exec_data	*init_data(char **envp)
+{
+	t_exec_data	*data;
+	int			count;
+	int			i;
+
+	data = malloc(sizeof(t_exec_data));
+	if (!data)
+		return (NULL);
+	count = 0;
+	i = 0;
+	while (envp[count])
+		count++;
+	data->env_list = init_env(envp);
+	data->envp = malloc(sizeof(char *) * (count + 1));
+	if (!data->envp)
+		return (NULL);
+	while (i < count)
+	{
+		data->envp[i] = ft_strdup(envp[i]);
+		i++;
+	}
+	data->envp[i] = NULL;
+	return (data);
 }
