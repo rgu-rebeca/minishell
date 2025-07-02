@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 20:16:02 by rgu               #+#    #+#             */
-/*   Updated: 2025/07/02 20:46:56 by rgu              ###   ########.fr       */
+/*   Updated: 2025/07/02 20:51:23 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,5 +86,6 @@ t_exec_data	*init_data(char **envp)
 		i++;
 	}
 	data->envp[i] = NULL;
+	data->dirty_envp = 0;
 	return (data);
 }

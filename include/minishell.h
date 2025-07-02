@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 20:33:32 by rgu               #+#    #+#             */
-/*   Updated: 2025/07/02 20:47:17 by rgu              ###   ########.fr       */
+/*   Updated: 2025/07/02 21:50:25 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,11 @@ typedef struct s_exec_data
 {
 	t_env	*env_list;
 	char	**envp;
+	int		dirty_envp;
 }	t_exec_data;
 
 void				setup_signals(void);
-void				execute_command(t_cmd *cmd, t_env *env_list, char **envp);
+void				execute_command(t_cmd *cmd, t_exec_data *data);
 char				*get_command_path(char *cmd, t_env *env_list);
 void				free_args(char **args);
 int					ft_strcmp(const char *str1, const char *str2);
@@ -87,10 +88,9 @@ t_token				*tokenize(char *line, t_env *env_list);
 t_cmd				*parse_tokens(t_token *tokens);
 int					ft_isspace(int a);
 void				free_tokens(t_token *tokens);
-void				execute_command_simple(t_cmd *cmd,
-						t_env *env_list, char **envp);
+void				execute_command_simple(t_cmd *cmd, t_exec_data *data);
 int					is_built_in(t_cmd *cmd);
-int					exec_built_in(t_cmd *cmd, t_env **env_list);
+int					exec_built_in(t_cmd *cmd, t_exec_data *data);
 void				exec_cd(t_cmd *cmd);
 void				free_command(t_cmd *cmd);
 void				exec_pwd(void);
@@ -108,8 +108,8 @@ t_env				*find_env_node(t_env *env_list, const char *key);
 void				add_env_node(t_env **env_list, char *key, char *value);
 void				print_unset_error(char *arg);
 void				print_export_error(const char *arg);
-int					builtin_export(char **args, t_env **env_list);
-int					builtin_unset(char **args, t_env **env_list);
+int					builtin_export(char **args, t_exec_data *data);
+int					builtin_unset(char **args, t_exec_data *data);
 int					heredoc(char *delimiter, char *filename);
 char				*extract_word(char *line, int *i, int *quote_type);
 t_token_type		get_token_type(char *str, int quote_tye);
@@ -125,7 +125,6 @@ int					export_var(t_env **env_list, char *key, char *value);
 int					export_var(t_env **env_list, char *key, char *value);
 int					export_var(t_env **env_list, char *key, char *value);
 int					unset_var(t_env **env_list, char *key);
-int					builtin_unset(char **args, t_env **env_list);
 int					check_token_error(t_token *token);
 int					is_redirection(t_token *token);
 void				handle_sigint_special(int sig);
@@ -136,4 +135,5 @@ void				launch_pipes(int count, pid_t *pids,
 t_exec_data			*init_data(char **envp);
 void				free_data(t_exec_data *data);
 void				handle_redirections(t_cmd *cmd);
+char				**update_envp(t_exec_data *data);
 #endif

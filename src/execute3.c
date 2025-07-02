@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 17:40:46 by rgu               #+#    #+#             */
-/*   Updated: 2025/07/02 20:46:24 by rgu              ###   ########.fr       */
+/*   Updated: 2025/07/02 21:50:44 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,14 @@ void	handle_parent(int fd[2], int *in_fd)
 		*in_fd = fd[0];
 }
 
-void	auxliar(t_cmd **cmds, int i, t_env **env_list, char **envp)
+void	auxliar(t_cmd **cmds, int i, t_exec_data *data)
 {
 	if (is_built_in(cmds[i]))
 		handle_redirections(cmds[i]);
 	if (is_built_in(cmds[i]) == 0)
-		execute_command(cmds[i], *env_list, envp);
+		execute_command(cmds[i], data);
 	else
-		exec_built_in(cmds[i], env_list);
+		exec_built_in(cmds[i], data);
 	free_command(cmds[i]);
 	exit(1);
 }
@@ -69,7 +69,7 @@ void	launch_pipes(int count, pid_t *pids, t_cmd **cmds, t_exec_data *data)
 		if (pids[i] == 0)
 		{
 			handle_child(fd, in_fd, i, count);
-			auxliar(cmds, i, &data->env_list, data->envp);
+			auxliar(cmds, i, data);
 		}
 		handle_parent(fd, &in_fd);
 		i++;

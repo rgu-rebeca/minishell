@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 20:23:08 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/30 23:45:43 by rgu              ###   ########.fr       */
+/*   Updated: 2025/07/02 21:40:28 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,18 +63,18 @@ void	exec_pwd(void)
 	ft_printf("%s\n", pwd);
 }
 
-int	exec_built_in(t_cmd *cmd, t_env **env_list)
+int	exec_built_in(t_cmd *cmd, t_exec_data *data)
 {
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return (1);
 	if (ft_strcmp(cmd->args[0], "echo") == 0)
 		exec_echo(cmd);
 	else if (ft_strcmp(cmd->args[0], "export") == 0)
-		builtin_export(cmd->args, env_list);
+		builtin_export(cmd->args, data);
 	else if (ft_strcmp(cmd->args[0], "unset") == 0)
-		builtin_unset(cmd->args, env_list);
+		builtin_unset(cmd->args, data);
 	else if (ft_strcmp(cmd->args[0], "env") == 0)
-		print_env(*env_list);
+		print_env(data->env_list);
 	else if (ft_strcmp(cmd->args[0], "cd") == 0)
 		exec_cd(cmd);
 	else if (ft_strcmp(cmd->args[0], "pwd") == 0)

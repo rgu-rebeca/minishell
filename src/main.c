@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 15:59:00 by rgu               #+#    #+#             */
-/*   Updated: 2025/07/02 20:45:00 by rgu              ###   ########.fr       */
+/*   Updated: 2025/07/02 21:51:52 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 extern int	g_last_status;
 
-static void	handle_command(t_cmd *cmd, t_env **env_list, char **envp)
+static void	handle_command(t_cmd *cmd, t_exec_data *data)
 {
 	char	*last_arg;
 
@@ -26,16 +26,16 @@ static void	handle_command(t_cmd *cmd, t_env **env_list, char **envp)
 	else
 		last_arg = NULL;
 	if (cmd->args && cmd->args[0])
-		execute_command_simple(cmd, *env_list, envp);
+		execute_command_simple(cmd, data);
 	if (last_arg != NULL)
 	{
-		update_underscore(env_list, last_arg);
+		update_underscore(&data->env_list, last_arg);
 		free(last_arg);
 	}
 	free_command(cmd);
 }
 
-void	handle_builtin(t_cmd *cmd, t_env **env_list)
+void	handle_builtin(t_cmd *cmd, t_exec_data *data)
 {
 	int	copy_stdout;
 	int	flags;
@@ -55,7 +55,7 @@ void	handle_builtin(t_cmd *cmd, t_env **env_list)
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
 	}
-	exec_built_in(cmd, env_list);
+	exec_built_in(cmd, data);
 	if (copy_stdout != -1)
 	{
 		dup2(copy_stdout, STDOUT_FILENO);
@@ -112,9 +112,9 @@ static void	process_line(char *line, t_exec_data *data)
 	{
 		cmd = parse_tokens(tokens);
 		if (is_built_in(cmd) == 1)
-			handle_builtin(cmd, &data->env_list);
+			handle_builtin(cmd, data);
 		else
-			handle_command(cmd, &data->env_list, data->envp);
+			handle_command(cmd, data);
 		free_tokens(tokens);
 	}
 }

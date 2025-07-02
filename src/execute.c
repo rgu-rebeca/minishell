@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 15:58:22 by rgu               #+#    #+#             */
-/*   Updated: 2025/07/02 20:41:32 by rgu              ###   ########.fr       */
+/*   Updated: 2025/07/02 22:07:21 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,16 @@ void	handle_redirections(t_cmd *cmd)
 	open_outfile(cmd);
 }
 
-void	execute_command(t_cmd *cmd, t_env *env_list, char **envp)
+void	print_path_error(t_cmd *cmd)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(cmd->args[0], 2);
+	ft_putendl_fd(": command not found", 2);
+	free_command(cmd);
+	exit(127);
+}
+
+void	execute_command(t_cmd *cmd, t_exec_data *data)
 {
 	char	*path;
 
@@ -71,17 +80,13 @@ void	execute_command(t_cmd *cmd, t_env *env_list, char **envp)
 	handle_redirections(cmd);
 	if (access(".heredoc_temp", F_OK) == 0)
 		unlink(".heredoc_temp");
-	path = get_command_path(cmd->args[0], env_list);
+	path = get_command_path(cmd->args[0], data->env_list);
 	if (!path)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(cmd->args[0], 2);
-		ft_putendl_fd(": command not found", 2);
-		free_command(cmd);
-		exit(127);
-	}
+		print_path_error(cmd);
 	signal(SIGQUIT, SIG_DFL);
-	execve(path, cmd->args, envp);
+	if (data-> dirty_envp)
+		data->envp = update_envp(data);
+	execve(path, cmd->args, data->envp);
 	perror("minishell error");
 	free(path);
 	exit(1);
