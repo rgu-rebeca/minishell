@@ -6,12 +6,14 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 22:42:21 by rgu               #+#    #+#             */
-/*   Updated: 2025/07/11 10:40:20 by rgu              ###   ########.fr       */
+/*   Updated: 2025/07/11 10:54:32 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #include "../libft/libft.h"
+
+extern int	g_last_status;
 
 int	is_special(char c)
 {
@@ -48,7 +50,8 @@ char	*extract_quoted(char *line, int *i, int *start)
 	len = *i - *start;
 	word = ft_substr((const char *)line, *start, len);
 	if (line[((*i))] != mark)
-		return (free(word), ft_putstr_fd("the quotation mark is not closed\n",
+		return (g_last_status = 1, free(word),
+			ft_putstr_fd("the quotation mark is not closed\n",
 				2), NULL);
 	else if (line[(*i)] == mark)
 		(*i)++;
@@ -73,7 +76,8 @@ static char	*extract_unquoted_word(char *line, int *i)
 			if (line[*i] == mark)
 				(*i)++;
 			else
-				return (printf("quotation mark not closed.\n"), NULL);
+				return (g_last_status = 1,
+					printf("quotation mark not closed.\n"), NULL);
 			break ;
 		}
 		(*i)++;
