@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 20:33:32 by rgu               #+#    #+#             */
-/*   Updated: 2025/07/02 21:50:25 by rgu              ###   ########.fr       */
+/*   Updated: 2025/07/11 03:05:40 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,4 +136,5 @@ t_exec_data			*init_data(char **envp);
 void				free_data(t_exec_data *data);
 void				handle_redirections(t_cmd *cmd);
 char				**update_envp(t_exec_data *data);
+void				handle_export_arg(char *arg, t_env **env_list);
 #endif

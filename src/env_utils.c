@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 20:10:52 by rauizqui          #+#    #+#             */
-/*   Updated: 2025/07/02 21:42:11 by rgu              ###   ########.fr       */
+/*   Updated: 2025/07/11 03:06:03 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,18 +58,18 @@ static void	split_key_value(const char *arg, char **key, char **value)
 		*key = ft_strdup(arg);
 }
 
-static void	handle_export_arg(char *arg, t_env **env_list)
+void	handle_export_arg(char *arg, t_env **env_list)
 {
 	char	*key;
 	char	*value;
 
-	if (!is_valid_identifier(arg))
+	split_key_value(arg, &key, &value);
+	if (!is_valid_identifier(key))
 	{
-		print_export_error(arg);
+		print_export_error(key);
 		g_last_status = 1;
 		return ;
 	}
-	split_key_value(arg, &key, &value);
 	export_var(env_list, key, value);
 	free(key);
 	free(value);
@@ -89,27 +89,6 @@ int	builtin_unset(char **args, t_exec_data *data)
 			print_unset_error(args[i]);
 			g_last_status = 1;
 		}
-		i++;
-	}
-	g_last_status = 0;
-	data->dirty_envp = 1;
-	return (0);
-}
-
-int	builtin_export(char **args, t_exec_data *data)
-{
-	int	i;
-
-	if (!args[1])
-	{
-		print_sorted_env(data->env_list);
-		g_last_status = 0;
-		return (0);
-	}
-	i = 1;
-	while (args[i])
-	{
-		handle_export_arg(args[i], &data->env_list);
 		i++;
 	}
 	g_last_status = 0;

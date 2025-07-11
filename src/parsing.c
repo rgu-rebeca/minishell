@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 22:42:21 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/24 23:11:23 by rgu              ###   ########.fr       */
+/*   Updated: 2025/07/11 03:07:45 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,12 @@ char	*extract_quoted(char *line, int *i, int *start)
 	*start = *i;
 	while (line[*i] && line[*i] != mark)
 		(*i)++;
+	if (line[((*i))] != mark)
+		return (ft_putstr_fd("the quotation mark is not closed\n",
+				2), NULL);
 	len = *i - *start;
 	word = ft_substr((const char *)line, *start, len);
-	if (line[((*i))] != mark)
-		return (free(word), ft_putstr_fd("the quotation mark is not closed\n",
-				2), NULL);
-	else if (line[(*i)] == mark)
-		(*i)++;
+	(*i)++;
 	return (word);
 }
 
