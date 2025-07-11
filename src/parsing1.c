@@ -6,7 +6,7 @@
 /*   By: rgu <rgu@student.42madrid.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 16:00:23 by rgu               #+#    #+#             */
-/*   Updated: 2025/06/24 18:44:08 by rgu              ###   ########.fr       */
+/*   Updated: 2025/07/11 10:38:46 by rgu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,21 @@ t_token	*tokenize(char *line, t_env *env_list)
 		last = new_token;
 	}
 	return (head);
+}
+
+t_token_type	get_token_type(char *str, int quote_type)
+{
+	if (!str)
+		return (T_WORD);
+	if (ft_strcmp(str, "|") == 0 && quote_type == 0)
+		return (T_PIPE);
+	else if (ft_strcmp(str, "<") == 0 && quote_type == 0)
+		return (T_REDIR_IN);
+	else if (ft_strcmp(str, ">") == 0 && quote_type == 0)
+		return (T_REDIR_OUT);
+	else if (ft_strcmp(str, ">>") == 0 && quote_type == 0)
+		return (T_REDIR_APPEND);
+	else if (ft_strcmp(str, "<<") == 0 && quote_type == 0)
+		return (T_HERDOC);
+	return (T_WORD);
 }
