@@ -31,8 +31,11 @@ The shell was implemented in C using only allowed standard library functions, en
 
 ## 📁 Project Structure
 ├── src/ # Source files for parsing, execution, built-ins, etc.
+
 ├── includes/ # Header files
+
 ├── libft/ # Custom C standard library
+
 ├── Makefile # Build system
 
 
