@@ -17,7 +17,6 @@ Minishell is a fully functional, interactive shell program that supports:
 
 The shell was implemented in C using only allowed standard library functions, ensuring full manual control of processes, memory, and I/O.
 
----
 
 ## 🧠 Key Skills Demonstrated
 
@@ -29,7 +28,6 @@ The shell was implemented in C using only allowed standard library functions, en
 ✔️ Use of **termcap** to enhance user interaction (command history, cursor movement)  
 ✔️ Mastery of **defensive programming** (segfault-proof, norm-compliant)
 
----
 
 ## 📁 Project Structure
 ├── src/ # Source files for parsing, execution, built-ins, etc.
@@ -38,7 +36,7 @@ The shell was implemented in C using only allowed standard library functions, en
 ├── Makefile # Build system
 
 
----
+
 
 ## 🧪 How to Run
 
